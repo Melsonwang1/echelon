@@ -1,0 +1,1981 @@
+{
+  "name": "routing",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        816
+      ],
+      "id": "053610c9-513a-446c-a3e2-060c3339efa9",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_base?approved=eq.true&select=question,answer,theme",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        432
+      ],
+      "id": "cba9f445-6775-4602-a2ef-9dbbdbe28a49",
+      "name": "GET: Knowledge base inside supabase"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/rate_card_engraving?select=service,price_sgd,notes",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        624
+      ],
+      "id": "7481147e-41f9-4930-b047-758957067cce",
+      "name": "GET:rate card engraving inside supabase"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/rate_card_servicing?select=service_tier,price_sgd,turnaround_days,includes,notes",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        816
+      ],
+      "id": "4747fc4c-d2c8-41e1-999c-e980bd4b732e",
+      "name": "GET: rate card servicing inside supabase"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.choices[0].message.content;\n\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch(e) {\n  parsed = {\n    answered_by_kb:      false,\n    requires_escalation: false,\n    buyer_persona:       'unknown',\n    question_type:       'knowledge_gap',\n    draft_reply:         '',\n    gap_summary:         'Could not parse AI response — manual review needed'\n  };\n}\n\n// ── Map question_type to theme ────────────────────────────────\nconst theme_map = {\n  product_general:    'general',\n  servicing:          'servicing',\n  strap_compatibility:'strap',\n  engraving:          'engraving',\n  order_status:       'orders',\n  materials_safety:   'materials_safety',\n  returns_warranty:   'returns_warranty',\n  knowledge_gap:      'knowledge_gap',\n};\n\nconst theme = theme_map[parsed.question_type] ?? 'knowledge_gap';\n\nreturn [{\n  json: {\n    ...parsed,\n    requires_escalation: parsed.requires_escalation ?? false,\n    question_type:       parsed.question_type       ?? 'knowledge_gap',\n    buyer_persona:       parsed.buyer_persona       ?? 'unknown',\n    theme,\n    customer_name:  $('spilt by prompts').first().json.customer_name,\n    customer_email: $('spilt by prompts').first().json.customer_email,\n    subject:        $('spilt by prompts').first().json.subject,\n    message_body:   $('spilt by prompts').first().json.message_body,\n    date_received:  $('spilt by prompts').first().json.date_received,\n    channel:        $('spilt by prompts').first().json.channel,\n    order_id: $('spilt by prompts').first().json.order_id,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        624
+      ],
+      "id": "4f1f53f3-91e4-4b9b-b79a-37a72bf8fa48",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// BOLDR — Workflow 1: Build Qwen Prompt\n// Code node: runs after all Supabase fetch nodes\n// ============================================================\n\n// ── Pull fields from Edit Fields node ───────────────────────\nconst email_subject  = $('Edit Fields').first().json.subject;\nconst email_body     = $('Edit Fields').first().json.message_body;\nconst customer_name  = $('Edit Fields').first().json.customer_name;\nconst customer_email = $('Edit Fields').first().json.customer_email;\nconst date_received  = $('Edit Fields').first().json.date_received;\nconst channel        = $('Edit Fields').first().json.channel;\n\n// ── Extract order ID (format: BLD-XXXXXX) ───────────────────\nconst order_id_match = email_body.match(/BLD-\\d+/i);\nconst order_id = order_id_match ? order_id_match[0].toUpperCase() : null;\n\n// ── Pull data from all Supabase fetch nodes ──────────────────\nconst kb_rows        = $('GET: Knowledge base inside supabase').all().map(i => i.json);\nconst engraving_rows = $('GET:rate card engraving inside supabase').all().map(i => i.json);\nconst servicing_rows = $('GET: rate card servicing inside supabase').all().map(i => i.json);\nconst product_rows   = $('GET: products').all().map(i => i.json);\nconst strap_rows     = $('GET: straps').all().map(i => i.json);\n\n// ── Normalise KB theme names to match question_type values ───\nconst theme_normalise = {\n  'strap':            'strap_compatibility',\n  'Strap':            'strap_compatibility',\n  'orders':           'order_status',\n  'general':          'product_general',\n  'materials_safety': 'materials_safety',\n  'engraving':        'engraving',\n  'servicing':        'servicing',\n  'returns_warranty': 'order_status',\n};\n\nconst kb_rows_normalised = kb_rows.map(row => ({\n  ...row,\n  theme: theme_normalise[row.theme] ?? row.theme\n}));\n\n// ── Format KB entries grouped by theme ──────────────────────\nconst kb_by_theme = {};\nfor (const row of kb_rows_normalised) {\n  if (!kb_by_theme[row.theme]) kb_by_theme[row.theme] = [];\n  kb_by_theme[row.theme].push(`Q: ${row.question}\\nA: ${row.answer}`);\n}\n\nlet kb_text = '';\nfor (const [theme, entries] of Object.entries(kb_by_theme)) {\n  kb_text += `\\n### ${theme.toUpperCase()}\\n` + entries.join('\\n\\n') + '\\n';\n}\n\n// ── Format engraving rate card ───────────────────────────────\nconst engraving_text = engraving_rows\n  .map(r => `- ${r.service}: SGD ${r.price_sgd}${r.notes ? ' (' + r.notes + ')' : ''}`)\n  .join('\\n');\n\n// ── Format servicing rate card ───────────────────────────────\nconst servicing_text = servicing_rows\n  .map(r => `- ${r.service_tier}: SGD ${r.price_sgd}, ${r.turnaround_days} days — ${r.includes}${r.notes ? ' | ' + r.notes : ''}`)\n  .join('\\n');\n\n// ── Format product catalogue ─────────────────────────────────\nconst product_text = product_rows.map(p => `\nMODEL: ${p.name} | SKU: ${p.sku} | Price: SGD ${p.price_sgd} | ${p.availability}\n- Case: ${p.case_material}, ${p.case_diameter_mm}mm diameter, ${p.case_thickness_mm ?? 'N/A'}mm thick\n- Movement: ${p.movement}, ${p.power_reserve_hrs}hr power reserve, ${p.accuracy_sec_day ?? 'N/A'}\n- Water resistance: ${p.water_resistance ?? 'N/A'}\n- Lume: ${p.lume ?? 'N/A'}\n- Weight: ${p.weight_g ?? 'N/A'}g\n- Dial colours: ${p.dial_colours ?? 'N/A'}\n- Strap included: ${p.strap_included ?? 'N/A'}\n- Strap options: ${p.strap_options ?? 'N/A'}\n- Lug width: ${p.lug_width_mm}mm (fits all standard ${p.lug_width_mm}mm straps)\n- Safety — BPA-free: ${p.bpa_free}, Nickel-free: ${p.nickel_free}, Hypoallergenic: ${p.hypoallergenic}, EU REACH: ${p.eu_reach}\n- Warranty: ${p.warranty}${p.waitlist_url ? '\\n- Waitlist: ' + p.waitlist_url : ''}\n${p.notes ? '⚠ ' + p.notes : ''}`\n).join('\\n');\n\n// ── Format strap catalogue ───────────────────────────────────\nconst strap_text = strap_rows\n  .map(s => `- ${s.sku} | ${s.type} | ${s.colour} | SGD ${s.price_sgd} | BPA-free: ${s.bpa_free} | Fits: ${s.compatible_with}`)\n  .join('\\n');\n\n// ── Get first name safely ────────────────────────────────────\nconst first_name = (customer_name && customer_name.trim())\n  ? customer_name.split(' ')[0]\n  : 'there';\n\n// ── Build system prompt ──────────────────────────────────────\nconst system_prompt = `You are the BOLDR customer service assistant. BOLDR is a Singapore-based premium titanium watch brand.\n\nYour job is to analyse an inbound customer email and return a JSON object with exactly these fields:\n- \"answered_by_kb\": true or false — true only if the question is FULLY answerable from the knowledge base below\n- \"requires_escalation\": true or false — true if any escalation condition below is met\n- \"buyer_persona\": one of [health_conscious, gifter, enthusiast, active_outdoor_buyer, sustainability_advocate]\n- \"question_type\": one of [engraving, knowledge_gap, materials_safety, order_status, product_general, servicing, strap_compatibility]\n- \"draft_reply\": a complete reply in BOLDR brand voice if answered_by_kb is true, otherwise an empty string \"\"\n- \"gap_summary\": a one-sentence summary of the specific missing information if answered_by_kb is false, otherwise \"\"\n\nIMPORTANT — there are only 3 valid combinations of answered_by_kb and requires_escalation:\n- answered_by_kb TRUE  + requires_escalation FALSE → normal ticket, draft reply sent to agent for approval\n- answered_by_kb TRUE  + requires_escalation TRUE  → KB has the answer but situation needs escalation, draft reply provided as reference for the team\n- answered_by_kb FALSE + requires_escalation TRUE  → knowledge gap AND escalation needed, no draft reply possible\nThe combination answered_by_kb FALSE + requires_escalation FALSE must NEVER occur — if the question is not in the KB, it always requires escalation so a human can find the answer.\n\nBOLDR BRAND VOICE RULES:\n- Friendly but not overly casual — we are a premium brand\n- Direct — answer clearly, no filler\n- Never start with \"Great question!\"\n- Never use \"Dear Sir/Madam\"\n- Opening: \"Hi ${first_name}, thanks for reaching out! Happy to help with that.\"\n- Never promise timelines you cannot guarantee\n- Sign off: \"Warm regards, BOLDR Customer Service\"\n\nPERSONA DEFINITIONS — pick the single best match:\n- health_conscious: asks about BPA, nickel, hypoallergenic, EU REACH, safe for kids\n- gifter: asks about engraving, gift wrap, turnaround for a date, anniversary/birthday context, corporate gifting, bulk orders\n- enthusiast: asks about strap compatibility, lug width, movement specs, third-party straps, limited editions, grade 5 titanium, Miyota movement, collector pieces\n- active_outdoor_buyer: asks about water resistance, shock resistance, trail running suitability, FKM rubber straps, or rugged use cases\n- sustainability_advocate: asks about vegan straps, carbon-neutral shipping, eco packaging, ethical sourcing, or environmental certifications\n\nQUESTION TYPE DEFINITIONS — pick the single best match:\n- materials_safety: questions about BPA content, nickel presence, hypoallergenic properties, EU REACH or RoHS certifications, lume safety, dye safety, or material composition of the case, strap, or buckle\n- engraving: questions about character limits, engraving pricing, font/script options, turnaround time for engraving, amending or cancelling an engraving order after it has been placed, logo engraving, corporate logo engraving, strap buckle engraving, or bulk engraving\n- strap_compatibility: questions about lug width, whether a third-party strap will fit, rubber vs leather vs NATO vs titanium strap options, strap lengths, quick-release mechanism, strap care, or swimming suitability of a strap\n- servicing: questions about battery replacement, movement regulation, full service inclusions and pricing, crystal replacement, case polish, turnaround times for servicing, how to send a watch in, or service warranty\n- order_status: transactional questions about tracking numbers, shipping timelines, customs duties, express shipping options, wrong item received, changing a delivery address, cancelling an unfulfilled order, return requests, refund status, warranty claims, or what the warranty covers\n- product_general: broad questions about watch dimensions, model differences (e.g. Expedition vs Journey), dial colour options, gift wrapping, water resistance comparisons, or which model to choose\n- knowledge_gap: the question does not fit any category above, or the specific detail asked cannot be found in the knowledge base\n\nKNOWLEDGE BASE:\n${kb_text}\n\nENGRAVING PRICING:\n${engraving_text}\n\nSERVICING PRICING:\n${servicing_text}\n\nPRODUCT CATALOGUE:\n${product_text}\n\nSTRAP CATALOGUE:\n${strap_text}\n\nESCALATION CONDITIONS — set requires_escalation to true if ANY apply:\n- Customer mentions chargeback, legal action, or is clearly angry/threatening\n- Question involves a warranty claim with significant damage or potential defect\n- Order involves more than 5 units (corporate or bulk enquiry)\n- A media or press enquiry is detected\n- Question is about servicing a discontinued or older model\n- Refund appears to have been outstanding for a long time\n- Answer cannot be found anywhere in the knowledge base above\n- Customer wants to amend or cancel an engraving order placed more than 1 hour ago\n\nCRITICAL RULES — read every rule before responding:\n\n1. answered_by_kb vs requires_escalation are INDEPENDENT fields:\n   - answered_by_kb = can the question be answered using the knowledge base above?\n   - requires_escalation = does the situation need a human to handle it?\n   - These two fields can BOTH be true at the same time.\n   - An angry tone or chargeback threat sets requires_escalation to true but does NOT change answered_by_kb to false.\n   - If answered_by_kb is false, requires_escalation MUST always be true — a human must handle it.\n\n2. draft_reply rules:\n   - If answered_by_kb is true (regardless of requires_escalation): ALWAYS write a full draft reply.\n   - The draft reply is used as a reference for the agent even on escalated tickets.\n   - If answered_by_kb is false: set draft_reply to \"\" — there is nothing in the KB to base a reply on.\n\n3. gap_summary rules:\n   - Only populate gap_summary when answered_by_kb is false.\n   - Describe ONLY the specific information that is missing from the knowledge base — not the full email situation.\n   - Do not include tone, urgency, or escalation reasons in gap_summary — those are captured by requires_escalation.\n   - Example: \"Customer asking about shock resistance rating for trail running — not in knowledge base.\"\n   - If answered_by_kb is true, gap_summary must be \"\".\n\n4. question_type rules:\n   - Bulk or corporate orders with logo engraving = question_type \"engraving\" (engraving is the primary ask).\n   - Bulk or corporate orders about pricing only = question_type \"product_general\".\n   - Angry or chargeback emails about a return = question_type \"order_status\".\n   - Returns, refunds, and warranty claims = question_type \"order_status\".\n   - If requires_escalation is true due to tone only (not topic), still classify question_type by the actual topic.\n   - If answered_by_kb is false, question_type must be \"knowledge_gap\".\n\n5. buyer_persona rules:\n   - Only allow either health_conscious, gifter, enthusiast,active_outdoor_buyer, sustainability_advocate\n   - Corporate gifting, bulk orders, milestone awards = buyer_persona \"gifter\".\n   - Do NOT classify bulk/corporate as any persona other than \"gifter\".\n   - Returns, refund follow-ups, and order tracking without other context = buyer_persona \"gifter\" if gift context present, otherwise classify by the primary concern (e.g. active_outdoor_buyer if product suitability was the original issue).\n\n6. Combination enforcement:\n   - answered_by_kb FALSE + requires_escalation FALSE = FORBIDDEN. Never return this combination.\n   - If the question is not in the KB, always set requires_escalation to true.\n\n7. Return ONLY a valid JSON object. No markdown, no explanation, no code fences.`;\n\n// ── Build user prompt ────────────────────────────────────────\nconst user_prompt = `Customer name: ${customer_name}\nEmail subject: ${email_subject}\nEmail body:\n${email_body}`;\n\n// ── Return everything forward ────────────────────────────────\nreturn [{\n  json: {\n    system_prompt,\n    user_prompt,\n    customer_name,\n    customer_email,\n    subject:       email_subject,\n    message_body:  email_body,\n    date_received,\n    channel,\n    order_id,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        624
+      ],
+      "id": "7eb2906c-caeb-4441-9565-86c068e4055e",
+      "name": "spilt by prompts"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  {\n    \"model\": \"qwen-plus\",\n    \"messages\": [\n      {\n        \"role\": \"system\",\n        \"content\": $json.system_prompt\n      },\n      {\n        \"role\": \"user\",\n        \"content\": $json.user_prompt\n      }\n    ],\n    \"temperature\": 0.2,\n    \"response_format\": {\n      \"type\": \"json_object\"\n    }\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        624
+      ],
+      "id": "05e7c471-dc5a-4405-8b49-8b461a591a16",
+      "name": "calling of ai to direct using qwen"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"date_received\": \"{{ $json.date_received.substring(0, 19).replace('T', ' ') }}\",\n  \"customer_name\": \"{{ $json.customer_name }}\",\n  \"customer_email\": \"{{ $json.customer_email }}\",\n  \"channel\": \"{{ $json.channel }}\",\n  \"question_type\": \"{{ $json.question_type }}\",\n  \"subject\": \"{{ $json.subject }}\",\n  \"message_body\": {{ JSON.stringify($json.message_body) }},\n  \"answered_by_kb\": {{ $json.answered_by_kb }},\n  \"requires_escalation\": {{ $json.requires_escalation }},\n  \"status\": \"open\",\n  \"buyer_persona\": \"{{ $json.buyer_persona }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2016,
+        752
+      ],
+      "id": "3d4cde93-f1e6-49e6-9478-fb72a2537b4b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8c30285c-7d99-4073-ae7f-21b2ac5b497e",
+              "name": "customer_email",
+              "value": "={{ $json.to.value[0].address }}",
+              "type": "string"
+            },
+            {
+              "id": "a980111b-a108-40d5-b793-09c106521b53",
+              "name": "subject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "1dbe9af1-d5a3-4ff1-8025-cefea0e51f3e",
+              "name": "message_body",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "2e3d8821-4c31-466b-8987-42cb9fb89839",
+              "name": "customer_name",
+              "value": "={{ $json.to.value[0].name }}",
+              "type": "string"
+            },
+            {
+              "id": "ec07760e-61a9-4e1a-af86-4c5fa6715d6c",
+              "name": "channel",
+              "value": "email",
+              "type": "string"
+            },
+            {
+              "id": "419ff615-0293-4394-8bd5-09235f0c845a",
+              "name": "date_received",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        816
+      ],
+      "id": "bf5964a7-1f4f-4a88-a99c-529c6d98d383",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "numberInputs": 5,
+        "output": "empty"
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        672,
+        576
+      ],
+      "id": "5ace41fe-c2a7-4ef7-a568-4f4e75ae0cde",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4cbda13a-2dd2-48d1-9ece-610ddbc16863",
+              "leftValue": "={{ $json.answered_by_kb }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1568,
+        624
+      ],
+      "id": "a856711f-f5ce-45aa-849d-4ba3b63f8ef9",
+      "name": "If answered by kb"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6028a099-bd02-479a-b8f1-6e48b5baf661",
+              "leftValue": "={{ $('Code in JavaScript1').item.json.requires_escalation }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1792,
+        400
+      ],
+      "id": "7f22cf46-dcc4-4391-9774-72b250c244d7",
+      "name": "If requires escalation"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/products?select=*",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        1008
+      ],
+      "id": "2922af92-e646-44e6-a95a-b9331e125a61",
+      "name": "GET: products"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/straps?select=*",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        1200
+      ],
+      "id": "648f7800-5262-4b62-bfc7-f82577a28a02",
+      "name": "GET: straps"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"date_received\": \"{{ $json.date_received.substring(0, 19).replace('T', ' ') }}\",\n  \"customer_name\": \"{{ $json.customer_name }}\",\n  \"customer_email\": \"{{ $json.customer_email }}\",\n  \"channel\": \"{{ $json.channel }}\",\n  \"question_type\": \"{{ $json.question_type }}\",\n  \"subject\": \"{{ $json.subject }}\",\n  \"message_body\": {{ JSON.stringify($json.message_body) }},\n  \"answered_by_kb\": {{ $json.answered_by_kb }},\n  \"requires_escalation\": {{ $json.requires_escalation }},\n  \"status\": \"open\",\n  \"buyer_persona\": \"{{ $json.buyer_persona }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2016,
+        1040
+      ],
+      "id": "9821f961-2716-4707-948f-db6bd10bd90a",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"date_received\": \"{{ $json.date_received.substring(0, 19).replace('T', ' ') }}\",\n  \"customer_name\": \"{{ $json.customer_name }}\",\n  \"customer_email\": \"{{ $json.customer_email }}\",\n  \"channel\": \"{{ $json.channel }}\",\n  \"question_type\": \"{{ $json.question_type }}\",\n  \"subject\": \"{{ $json.subject }}\",\n  \"message_body\": {{ JSON.stringify($json.message_body) }},\n  \"answered_by_kb\": {{ $json.answered_by_kb }},\n  \"requires_escalation\": {{ $json.requires_escalation }},\n  \"status\": \"open\",\n  \"buyer_persona\": \"{{ $json.buyer_persona }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2016,
+        304
+      ],
+      "id": "82d3270c-3b4c-466f-9c8a-03d673bc58ee",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// BOLDR — Workflow 1: Build Escalation Classifier Prompt\n// Code node: runs after IF node (requires_escalation = true)\n// Place this BEFORE the second Qwen HTTP Request node\n// ============================================================\n\n// ── Pull fields directly from Code in JavaScript1 ────────────\nconst customer_name    = $('Code in JavaScript1').first().json.customer_name;\nconst customer_email   = $('Code in JavaScript1').first().json.customer_email;\nconst subject          = $('Code in JavaScript1').first().json.subject;\nconst message_body     = $('Code in JavaScript1').first().json.message_body;\nconst date_received    = $('Code in JavaScript1').first().json.date_received;\nconst channel          = $('Code in JavaScript1').first().json.channel;\nconst draft_reply      = $('Code in JavaScript1').first().json.draft_reply;\nconst answered_by_kb   = $('Code in JavaScript1').first().json.answered_by_kb;\nconst buyer_persona    = $('Code in JavaScript1').first().json.buyer_persona;\nconst question_type    = $('Code in JavaScript1').first().json.question_type;\nconst gap_summary      = $('Code in JavaScript1').first().json.gap_summary;\n\n// ── Build escalation classifier system prompt ─────────────────\nconst system_prompt = `You are a customer service routing assistant for BOLDR, a premium Singapore-based titanium watch brand.\n\nYour job is to read a customer email and classify exactly what type of escalation it is so it can be routed to the right team.\n\nReturn ONLY a valid JSON object with exactly these fields:\n- \"escalation_type\": one of [corporate, service, media, angry, refund, unknown]\n- \"escalation_reason\": one sentence explaining clearly why this needs escalation\n- \"route_to\": one of [corporate@boldr.co, service@boldr.co, marketing@boldr.co, cs@boldr.co, admin.shopify.com]\n- \"urgency\": one of [high, medium, low]\n\nESCALATION TYPE DEFINITIONS:\n- corporate: customer is asking about bulk or corporate orders (more than 5 units), B2B pricing, or gifting at scale\n- service: customer is asking about watch servicing, battery replacement, regulation, repairs, warranty claims, or damage to their watch\n- media: customer identifies themselves as press, media, blogger, influencer, or is requesting a product for review\n- angry: customer is expressing strong frustration, threatening a chargeback, disputing a charge, or mentioning legal action\n- refund: customer is following up on an order cancellation, return, or refund — requires order lookup\n- unknown: agent could not find the answer in the knowledge base and needs team lead assistance or customer wants to change or cancel engraving text and it has been more than 1 hour since the order was placed\n\nROUTING RULES — route_to must match exactly:\n- corporate@boldr.co → escalation_type is corporate (bulk orders, B2B enquiries, more than 5 units)\n- service@boldr.co   → escalation_type is service (servicing, warranty claims, repairs)\n- marketing@boldr.co → escalation_type is media (press, influencer, media enquiries)\n- cs@boldr.co        → escalation_type is angry or unknown (angry/chargeback, or answer not found in knowledge base)\n- admin.shopify.com  → escalation_type is refund (order lookups, cancellations, refund status)\n\nURGENCY RULES:\n- high:   angry customer, chargeback threat, legal mention, or significant product defect\n- medium: corporate enquiry, service/warranty claim, refund follow-up\n- low:    media enquiry, unknown question needing team lead check\n\nCRITICAL RULES:\n- Choose exactly ONE escalation_type — pick the most dominant reason if multiple apply\n- route_to must follow the routing rules above exactly\n- Return ONLY a valid JSON object. No markdown, no explanation, no code fences.`;\n\n// ── Build user prompt ─────────────────────────────────────────\nconst user_prompt = `Customer name: ${customer_name}\nCustomer email: ${customer_email}\nSubject: ${subject}\nBuyer persona (already classified): ${buyer_persona}\nQuestion type (already classified): ${question_type}\n\nEmail body:\n${message_body}\n\nFirst AI draft reply (if any):\n${draft_reply || 'No draft reply — question was not answerable from knowledge base.'}`;\n\n// ── Return everything forward ─────────────────────────────────\nreturn [{\n  json: {\n    system_prompt,\n    user_prompt,\n    customer_name,\n    customer_email,\n    subject,\n    message_body,\n    date_received,\n    channel,\n    draft_reply,\n    answered_by_kb,\n    buyer_persona,\n    question_type,\n    gap_summary,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        304
+      ],
+      "id": "e9813b87-4994-44ee-8d45-97290498b67d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  {\n    \"model\": \"qwen-plus\",\n    \"messages\": [\n      {\n        \"role\": \"system\",\n        \"content\": $json.system_prompt\n      },\n      {\n        \"role\": \"user\",\n        \"content\": $json.user_prompt\n      }\n    ],\n    \"temperature\": 0.2,\n    \"response_format\": {\n      \"type\": \"json_object\"\n    }\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2464,
+        304
+      ],
+      "id": "b73c2d6a-9691-4073-9d9c-051656faebef",
+      "name": "calling of ai to direct using qwen1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "corporate",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "c36533a0-ddd8-488b-a55f-e836bf83ab89"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ab4850e8-b9fe-4101-9f55-eef5115bedd2",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "service",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9b5c5759-d4d6-4ea4-9a56-2e4ac85600a1",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "media",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c999a6b6-7373-4491-97ad-3970162ed116",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "angry",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6309ae2b-db61-44f0-904b-278356b2d71c",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "refund",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "88fa3e91-53a9-4307-bfc0-a023513c1d6b",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "unknown",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2912,
+        240
+      ],
+      "id": "af7d48fe-f3b5-4ce2-b574-ca12fd1c0195",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Parse escalation Qwen response ───────────────────────────\nconst raw = $input.first().json.choices[0].message.content;\n\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch(e) {\n  parsed = {\n    escalation_type:   'corporate',\n    escalation_reason: 'Could not parse escalation response — manual review needed',\n    route_to:          'cs@boldr.co',\n    urgency:           'medium'\n  };\n}\n\n// ── Carry all original fields forward ────────────────────────\nreturn [{\n  json: {\n    // escalation fields from this Qwen call\n    escalation_type:   parsed.escalation_type   ?? 'corporate',\n    escalation_reason: parsed.escalation_reason ?? 'Unknown reason',\n    route_to:          parsed.route_to          ?? 'cs@boldr.co',\n    urgency:           parsed.urgency           ?? 'medium',\n\n    // original fields from Code in JavaScript1\n    customer_name:   $('Code in JavaScript1').first().json.customer_name,\n    customer_email:  $('Code in JavaScript1').first().json.customer_email,\n    subject:         $('Code in JavaScript1').first().json.subject,\n    message_body:    $('Code in JavaScript1').first().json.message_body,\n    date_received:   $('Code in JavaScript1').first().json.date_received,\n    channel:         $('Code in JavaScript1').first().json.channel,\n    draft_reply:     $('Code in JavaScript1').first().json.draft_reply,\n    answered_by_kb:  $('Code in JavaScript1').first().json.answered_by_kb,\n    buyer_persona:   $('Code in JavaScript1').first().json.buyer_persona,\n    question_type:   $('Code in JavaScript1').first().json.question_type,\n    gap_summary:     $('Code in JavaScript1').first().json.gap_summary,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2688,
+        304
+      ],
+      "id": "9603e0c6-9ffa-4f75-84aa-f977eb64a3df",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted ticket (Corporate)\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTheme: {{ $('Code in JavaScript1').item.json.theme }}\nTicket id: {{ $('HTTP Request4').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\n─────────────────────\n<b>Draft reply:</b>\n{{ $('Code in JavaScript1').item.json.draft_reply }}\n\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to corporate team and customer",
+                    "additionalFields": {
+                      "callback_data": "corporate"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3136,
+        -176
+      ],
+      "id": "414dd129-cffd-4fd5-a729-3c3ca04cbdda",
+      "name": "Corporate",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Service)\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTheme: {{ $('Code in JavaScript1').item.json.theme }}\n<b> Order ID (blank means user did not include): {{ $('Code in JavaScript1').item.json.order_id }} </b>\nTicket id: {{ $('HTTP Request4').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\n─────────────────────\n<b>Draft reply:</b>\n{{ $('Code in JavaScript1').item.json.draft_reply }}\n\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to service team and customer",
+                    "additionalFields": {
+                      "callback_data": "service"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3136,
+        16
+      ],
+      "id": "f3acc70e-c448-4b88-98b1-cb78c17806d4",
+      "name": "Service",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Media)\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTheme: {{ $('Code in JavaScript1').item.json.theme }}\nTicket id: {{ $('HTTP Request4').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\n─────────────────────\n<b>Draft reply:</b>\n{{ $('Code in JavaScript1').item.json.draft_reply }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to marketing team and customer",
+                    "additionalFields": {
+                      "callback_data": "marketing"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3136,
+        208
+      ],
+      "id": "063976e2-4629-49ab-b254-4a499b88e770",
+      "name": "Media",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Refunds)\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTheme: {{ $('Code in JavaScript1').item.json.theme }}\n<b> Order ID (blank means user did not include): {{ $('Code in JavaScript1').item.json.order_id }} </b>\nTicket id: {{ $('HTTP Request4').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\n─────────────────────\n<b>Draft reply:</b>\n{{ $('Code in JavaScript1').item.json.draft_reply }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to Shopify admin team and customer",
+                    "additionalFields": {
+                      "callback_data": "shopify_admin"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3136,
+        592
+      ],
+      "id": "25ea0ff3-2146-4b13-9736-275f12cf5bc3",
+      "name": "Shopify admin",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Team Lead)\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTheme: {{ $('Code in JavaScript1').item.json.theme }}\nTicket id: {{ $('HTTP Request4').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\n─────────────────────\n<b>Draft reply:</b>\n{{ $('Code in JavaScript1').item.json.draft_reply }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to Team Lead and customer",
+                    "additionalFields": {
+                      "callback_data": "team_lead"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3136,
+        400
+      ],
+      "id": "af268856-870f-4e3c-a89c-3a62d56d64d3",
+      "name": "Team Lead (angry)",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Team Lead)\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTheme: {{ $('Code in JavaScript1').item.json.theme }}\nTicket id: {{ $('HTTP Request4').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\n─────────────────────\n<b>Draft reply:</b>\n{{ $('Code in JavaScript1').item.json.draft_reply }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to Team Lead and customer",
+                    "additionalFields": {
+                      "callback_data": "team_lead"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3136,
+        784
+      ],
+      "id": "78a08418-8aa7-40ba-bd33-cff6c15d82c2",
+      "name": "Team Lead (unknown)",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_gaps",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"ticket_id\":\"{{ $json.ticket_id }}\",\n  \"theme\":\"{{ $json.question_type }}\",\n  \"question_summary\":\"{{ $('Code in JavaScript1').item.json.gap_summary }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2240,
+        1040
+      ],
+      "id": "aa955acc-6d3e-48f2-81db-65d747e0d5e5",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// BOLDR — Workflow 1: Build Escalation Classifier Prompt\n// Code node: runs after IF node (requires_escalation = true)\n// Place this BEFORE the second Qwen HTTP Request node\n// ============================================================\n\n// ── Pull fields directly from Code in JavaScript1 ────────────\nconst customer_name    = $('Code in JavaScript1').first().json.customer_name;\nconst customer_email   = $('Code in JavaScript1').first().json.customer_email;\nconst subject          = $('Code in JavaScript1').first().json.subject;\nconst message_body     = $('Code in JavaScript1').first().json.message_body;\nconst date_received    = $('Code in JavaScript1').first().json.date_received;\nconst channel          = $('Code in JavaScript1').first().json.channel;\nconst draft_reply      = $('Code in JavaScript1').first().json.draft_reply;\nconst answered_by_kb   = $('Code in JavaScript1').first().json.answered_by_kb;\nconst buyer_persona    = $('Code in JavaScript1').first().json.buyer_persona;\nconst question_type    = $('Code in JavaScript1').first().json.question_type;\nconst gap_summary      = $('Code in JavaScript1').first().json.gap_summary;\n\n// ── Build escalation classifier system prompt ─────────────────\nconst system_prompt = `You are a customer service routing assistant for BOLDR, a premium Singapore-based titanium watch brand.\n\nYour job is to read a customer email and classify exactly what type of escalation it is so it can be routed to the right team.\n\nReturn ONLY a valid JSON object with exactly these fields:\n- \"escalation_type\": one of [corporate, service, media, angry, refund, unknown]\n- \"escalation_reason\": one sentence explaining clearly why this needs escalation\n- \"route_to\": one of [corporate@boldr.co, service@boldr.co, marketing@boldr.co, cs@boldr.co, admin.shopify.com]\n- \"urgency\": one of [high, medium, low]\n\nESCALATION TYPE DEFINITIONS:\n- corporate: customer is asking about bulk or corporate orders (more than 5 units), B2B pricing, or gifting at scale\n- service: customer is asking about watch servicing, battery replacement, regulation, repairs, warranty claims, or damage to their watch\n- media: customer identifies themselves as press, media, blogger, influencer, or is requesting a product for review\n- angry: customer is expressing strong frustration, threatening a chargeback, disputing a charge, or mentioning legal action\n- refund: customer is following up on an order cancellation, return, or refund — requires order lookup\n- unknown: agent could not find the answer in the knowledge base and needs team lead assistance or customer wants to change or cancel engraving text and it has been more than 1 hour since the order was placed\n\nROUTING RULES — route_to must match exactly:\n- corporate@boldr.co → escalation_type is corporate (bulk orders, B2B enquiries, more than 5 units)\n- service@boldr.co   → escalation_type is service (servicing, warranty claims, repairs)\n- marketing@boldr.co → escalation_type is media (press, influencer, media enquiries)\n- cs@boldr.co        → escalation_type is angry or unknown (angry/chargeback, or answer not found in knowledge base)\n- admin.shopify.com  → escalation_type is refund (order lookups, cancellations, refund status)\n\nURGENCY RULES:\n- high:   angry customer, chargeback threat, legal mention, or significant product defect\n- medium: corporate enquiry, service/warranty claim, refund follow-up\n- low:    media enquiry, unknown question needing team lead check\n\nCRITICAL RULES:\n- Choose exactly ONE escalation_type — pick the most dominant reason if multiple apply\n- route_to must follow the routing rules above exactly\n- Return ONLY a valid JSON object. No markdown, no explanation, no code fences.`;\n\n// ── Build user prompt ─────────────────────────────────────────\nconst user_prompt = `Customer name: ${customer_name}\nCustomer email: ${customer_email}\nSubject: ${subject}\nBuyer persona (already classified): ${buyer_persona}\nQuestion type (already classified): ${question_type}\n\nEmail body:\n${message_body}\n\nFirst AI draft reply (if any):\n${draft_reply || 'No draft reply — question was not answerable from knowledge base.'}`;\n\n// ── Return everything forward ─────────────────────────────────\nreturn [{\n  json: {\n    system_prompt,\n    user_prompt,\n    customer_name,\n    customer_email,\n    subject,\n    message_body,\n    date_received,\n    channel,\n    draft_reply,\n    answered_by_kb,\n    buyer_persona,\n    question_type,\n    gap_summary,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2464,
+        1040
+      ],
+      "id": "95bb7061-9aa2-4313-8530-94e6f44d5019",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ── Parse escalation Qwen response ───────────────────────────\nconst raw = $input.first().json.choices[0].message.content;\n\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch(e) {\n  parsed = {\n    escalation_type:   'corporate',\n    escalation_reason: 'Could not parse escalation response — manual review needed',\n    route_to:          'cs@boldr.co',\n    urgency:           'medium'\n  };\n}\n\n// ── Carry all original fields forward ────────────────────────\nreturn [{\n  json: {\n    // escalation fields from this Qwen call\n    escalation_type:   parsed.escalation_type   ?? 'corporate',\n    escalation_reason: parsed.escalation_reason ?? 'Unknown reason',\n    route_to:          parsed.route_to          ?? 'cs@boldr.co',\n    urgency:           parsed.urgency           ?? 'medium',\n\n    // original fields from Code in JavaScript1\n    customer_name:   $('Code in JavaScript1').first().json.customer_name,\n    customer_email:  $('Code in JavaScript1').first().json.customer_email,\n    subject:         $('Code in JavaScript1').first().json.subject,\n    message_body:    $('Code in JavaScript1').first().json.message_body,\n    date_received:   $('Code in JavaScript1').first().json.date_received,\n    channel:         $('Code in JavaScript1').first().json.channel,\n    draft_reply:     $('Code in JavaScript1').first().json.draft_reply,\n    answered_by_kb:  $('Code in JavaScript1').first().json.answered_by_kb,\n    buyer_persona:   $('Code in JavaScript1').first().json.buyer_persona,\n    question_type:   $('Code in JavaScript1').first().json.question_type,\n    gap_summary:     $('Code in JavaScript1').first().json.gap_summary,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2912,
+        1040
+      ],
+      "id": "f0f987ee-5b8b-4b6c-8eeb-d333a30bcae3",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted ticket (Corporate)\n🚨 Knowledge Gap Detected\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $('Code in JavaScript3').item.json.buyer_persona }}\nTicket id:{{ $('HTTP Request3').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\nGap summary:\n{{ $('Code in JavaScript1').item.json.gap_summary }}\n\nNot in knowledge base — action needed.\n\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to corporate team",
+                    "additionalFields": {
+                      "callback_data": "corporate_only "
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3360,
+        560
+      ],
+      "id": "996f49e2-4e7d-42aa-ae98-0b8c6a78fa7e",
+      "name": "Corporate1",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Service)\n🚨 Knowledge Gap Detected\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $('Code in JavaScript3').item.json.buyer_persona }}\nOrder ID (blank means user did not include): {{ $('Code in JavaScript1').item.json.order_id }}\nTicket id:{{ $('HTTP Request3').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\nGap summary:\n{{ $('Code in JavaScript1').item.json.gap_summary }}\n\nNot in knowledge base — action needed.\n\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to service team",
+                    "additionalFields": {
+                      "callback_data": "service_only"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3360,
+        752
+      ],
+      "id": "7fe6acfc-13a4-4951-b28d-b71a3c431bb9",
+      "name": "Service1",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Media)\n🚨 Knowledge Gap Detected\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $('Code in JavaScript3').item.json.buyer_persona }}\nTicket id:{{ $('HTTP Request3').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\nGap summary:\n{{ $('Code in JavaScript1').item.json.gap_summary }}\n\nNot in knowledge base — action needed.\n\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to marketing team",
+                    "additionalFields": {
+                      "callback_data": "marketing_only"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3360,
+        944
+      ],
+      "id": "7faa5d53-f4dd-4e67-892d-c7f56e589cf6",
+      "name": "Media1",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Refunds)\n🚨 Knowledge Gap Detected\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $('Code in JavaScript3').item.json.buyer_persona }}\nOrder ID (blank means user did not include): {{ $('Code in JavaScript1').item.json.order_id }} \nTicket id:{{ $('HTTP Request3').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\nGap summary:\n{{ $('Code in JavaScript1').item.json.gap_summary }}\n\nNot in knowledge base — action needed.",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to Shopify admin team",
+                    "additionalFields": {
+                      "callback_data": "shopify_admin_only"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3360,
+        1328
+      ],
+      "id": "8722f736-55f6-4506-b234-84b9919d1303",
+      "name": "Shopify admin1",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Team Lead)\n🚨 Knowledge Gap Detected\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTicket id:{{ $('HTTP Request3').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\nGap summary:\n{{ $('Code in JavaScript1').item.json.gap_summary }}\n\nNot in knowledge base — action needed.\n\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to Team Lead",
+                    "additionalFields": {
+                      "callback_data": "team_lead_only"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3360,
+        1136
+      ],
+      "id": "97b5750e-418a-4567-a89a-1fa4ef348170",
+      "name": "Team Lead (angry)1",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=Escalted Ticket (Team Lead)\n🚨 Knowledge Gap Detected\n\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $json.buyer_persona }}\nTicket id:{{ $('HTTP Request3').item.json.ticket_id }}\n\nCustomer message:\n{{ $json.message_body }}\n\nGap summary:\n{{ $('Code in JavaScript1').item.json.gap_summary }}\n\nNot in knowledge base — action needed.\n\n",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Send to Team Lead",
+                    "additionalFields": {
+                      "callback_data": "team_lead_only"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3360,
+        1520
+      ],
+      "id": "a4c4c7d8-2bc3-44ec-85ad-6b783ec8c745",
+      "name": "Team Lead (unknown)1",
+      "webhookId": "f52ebb78-a821-474a-99b9-0c50e5909023",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "corporate",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "c36533a0-ddd8-488b-a55f-e836bf83ab89"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ab4850e8-b9fe-4101-9f55-eef5115bedd2",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "service",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9b5c5759-d4d6-4ea4-9a56-2e4ac85600a1",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "media",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c999a6b6-7373-4491-97ad-3970162ed116",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "angry",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6309ae2b-db61-44f0-904b-278356b2d71c",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "refund",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "88fa3e91-53a9-4307-bfc0-a023513c1d6b",
+                    "leftValue": "={{ $json.escalation_type }}",
+                    "rightValue": "unknown",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3136,
+        976
+      ],
+      "id": "6fd2e242-776c-43c8-aa80-3e732ac2278a",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n  {\n    \"model\": \"qwen-plus\",\n    \"messages\": [\n      {\n        \"role\": \"system\",\n        \"content\": $json.system_prompt\n      },\n      {\n        \"role\": \"user\",\n        \"content\": $json.user_prompt\n      }\n    ],\n    \"temperature\": 0.2,\n    \"response_format\": {\n      \"type\": \"json_object\"\n    }\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2688,
+        1040
+      ],
+      "id": "fa093343-8572-40a6-bfca-c0751ad4edb3",
+      "name": "calling of ai to direct using qwen escalation"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "=New Ticket — Draft Ready\nFrom: {{ $('Edit Fields').item.json.customer_name }} ({{ $('Edit Fields').item.json.customer_email }})\nSubject: {{ $('Edit Fields').item.json.subject }}\nPersona: {{ $('Code in JavaScript1').item.json.buyer_persona }}\nTheme: {{ $('Code in JavaScript1').item.json.theme }}\nOrder ID (blank means user did not include): {{ $('Code in JavaScript1').item.json.order_id }}\nTicket id: {{ $json.ticket_id }}\n\nCustomer message:\n{{ $('Code in JavaScript1').item.json.message_body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }}\n\n─────────────────────\nDraft reply:\n{{ $('Code in JavaScript1').item.json.draft_reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ Approve & Send",
+                    "additionalFields": {
+                      "callback_data": "=approve"
+                    }
+                  },
+                  {
+                    "text": "✏️ Edit",
+                    "additionalFields": {
+                      "callback_data": "=edit"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "=reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2240,
+        752
+      ],
+      "id": "2ca68c91-2e57-47c7-8d92-4ba704a3a5be",
+      "name": "Send a text message",
+      "webhookId": "abd4bba3-f6bf-4b2a-aeef-fa8559ff35a6",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Knowledge base inside supabase": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET:rate card engraving inside supabase": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "GET: rate card servicing inside supabase": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "spilt by prompts": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "If answered by kb",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "GET: Knowledge base inside supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET:rate card engraving inside supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: rate card servicing inside supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: products",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: straps",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "spilt by prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If answered by kb": {
+      "main": [
+        [
+          {
+            "node": "If requires escalation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If requires escalation": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: products": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "GET: straps": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Corporate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Service",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Media",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Team Lead (angry)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Shopify admin",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Team Lead (unknown)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen escalation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Corporate1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Service1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Media1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Team Lead (angry)1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Shopify admin1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Team Lead (unknown)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen escalation": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "00b53847-7a68-4e07-8199-69f1dc1d2f01",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e15a76d984d1d533ae2eea02153c3167b29a7fcb76903065faed6e65c50e681"
+  },
+  "id": "UfKYnfSHRX5qD1vF",
+  "tags": []
+}
