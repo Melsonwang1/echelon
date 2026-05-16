@@ -1,0 +1,3306 @@
+{
+  "name": "telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "corporate",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "7ecc5a84-2ba2-44ac-9024-f0406ee83155"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "90deedd2-81c6-4889-a56d-218b1a4eb48a",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "service",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4a757110-6cca-4b49-a987-3003754c2601",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "marketing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f6bb6d6c-e774-4722-acbf-431ee39c8360",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "team_lead",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "250e1d47-74d9-4948-b661-4a4a06208a67",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "shopify_admin",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ae82a5f5-8132-4821-8c8e-526daf8b7c86",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "approve",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6e4e6045-9194-4ddf-af17-2a807b3ca27c",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "edit",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "838c6b05-097c-43f2-bb21-048f4d7b402d",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "reroute_ticket",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bfeefd91-932c-49b6-90b2-2eeb766a3901",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "corporate_only",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c7ee4cba-0bc7-4448-9b02-7f66928a1d2b",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "service_only",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f8abe7c8-d3ce-4090-9607-b45f01cc4562",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "marketing_only",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bbc1dfe3-a9e2-425d-b93b-fac91f6bee17",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "team_lead_only",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c7259bbc-fba7-4ab8-8ad9-a50405a2d7ac",
+                    "leftValue": "={{ $('listen for clicks to button').item.json.callback_query.data }}",
+                    "rightValue": "shopify_admin_only",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        752
+      ],
+      "id": "5e26aaef-5cdf-4ad2-bf69-a9c6d7ddd1d0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputJson = $input.first().json;\n\nconst update = \n  inputJson?.body?.[0] ||\n  inputJson?.body ||\n  inputJson?.[0] ||\n  inputJson;\n\nconst callbackQuery = update?.callback_query;\nif (!callbackQuery) {\n  throw new Error(`No callback_query found. Raw input: ${JSON.stringify(inputJson)}`);\n}\n\nconst messageText = callbackQuery.message.text;\n\n// --- Action + Ticket ID from callback data ---\nconst callbackData    = callbackQuery.data;\nconst underscoreIndex = callbackData.indexOf('_');\nconst action          = callbackData.substring(0, underscoreIndex);\nconst ticketId        = callbackData.substring(underscoreIndex + 1);\n\n// --- Agent ---\nconst agentId       = callbackQuery.from.id;\nconst agentUsername = callbackQuery.from.username;\n\n// --- Message identifiers ---\nconst messageId = callbackQuery.message.message_id;\nconst chatId    = callbackQuery.message.chat.id;\n\n// --- Parse fields from message text ---\nconst extract = (label, text) => {\n  const regex = new RegExp(`${label}:\\\\s*(.+)`);\n  const match = text.match(regex);\n  return match ? match[1].trim() : \"\";\n};\n\n// From: Melson Wang (melsonwang@gmail.com)\nconst fromLine      = messageText.match(/From:\\s*(.+?)\\s*\\((.+?)\\)/);\nconst customerName  = fromLine ? fromLine[1].trim() : \"\";\nconst customerEmail = fromLine ? fromLine[2].trim() : \"\";\n\n// Extract ticket id from message text as backup\nconst ticketIdFromText = extract(\"Ticket id\", messageText) || ticketId;\n\nconst subject = extract(\"Subject\", messageText);\nconst persona = extract(\"Persona\", messageText);\nconst theme   = extract(\"Theme\",   messageText);\n\n// Order ID — optional, may not be present\nconst orderIdLine = messageText.match(/Order ID[^:]*:\\s*(.+)/);\nconst orderId = orderIdLine ? orderIdLine[1].trim() : null;\n\n// Customer message — stops at Gap summary, Draft reply, dashes, or end of string\nconst customerMessageMatch = messageText.match(/Customer message:\\s*([\\s\\S]*?)(?=\\nGap summary:|\\nDraft reply:|─{5,}|$)/);\nconst customerMessage = customerMessageMatch\n  ? customerMessageMatch[1].trim()\n  : \"\";\n\n// Draft reply — stops at Gap summary, dashes, or end of string\nconst draftReplyMatch = messageText.match(/Draft reply:\\s*([\\s\\S]*?)(?=\\nGap summary:|─{5,}|$)/);\nconst draftReply = draftReplyMatch ? draftReplyMatch[1].trim() : \"\";\n\n// Gap summary — everything after \"Gap summary:\" if present\nconst gapSummaryMatch = messageText.match(/Gap summary:\\s*([\\s\\S]+?)(?:─{5,}|$)/);\nconst gapSummary = gapSummaryMatch ? gapSummaryMatch[1].trim() : \"\";\n\nreturn {\n  action,\n  ticketId:      ticketIdFromText,\n  agentId,\n  agentUsername,\n  messageId,\n  chatId,\n  customerName,\n  customerEmail,\n  subject,\n  persona,\n  theme,\n  orderId,\n  customerMessage,\n  draftReply,\n  gapSummary,\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        928
+      ],
+      "id": "0200a658-0cac-4bdd-bad3-375ecd12c5eb",
+      "name": "spilt items"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.customerEmail }}",
+        "subject": "=RE: {{ $json.subject }}",
+        "message": "={{ $json.htmlBody }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        736
+      ],
+      "id": "3a15161c-7d43-47dc-939b-737bcffa9816",
+      "name": "approve",
+      "webhookId": "85f09e86-1c33-4335-85ec-54e2e32c77f6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\n\nconst stripHtml = (str) => (str || \"\").replace(/<\\/?[^>]+(>|$)/g, \"\").trim();\n\nconst customerName  = stripHtml(data.customerName);\nconst customerEmail = stripHtml(data.customerEmail);\nconst subject       = stripHtml(data.subject);\nconst persona       = stripHtml(data.persona);\nconst theme         = stripHtml(data.theme);\nconst action        = data.action;\n\nconst rawDraft = stripHtml(data.draftReply);\n\n// Format email with proper line breaks\nconst formatEmailHtml = (text) => {\n  // Normalize any existing newlines\n  let formatted = text.trim();\n\n  // Break after greeting line (ends with \"that.\" or \"!\" before body)\n  formatted = formatted.replace(\n    /(Hi .+?[.!])\\s+/,\n    \"$1<br><br>\"\n  );\n\n  // Break before \"Warm regards\" / \"Best regards\" / \"Kind regards\"\n  formatted = formatted.replace(\n    /\\s+(Warm regards|Best regards|Kind regards|Regards)/,\n    \"<br><br>$1\"\n  );\n\n  // Break between sign-off and name/team\n  formatted = formatted.replace(\n    /(Warm regards|Best regards|Kind regards|Regards),\\s+/,\n    \"$1,<br>\"\n  );\n\n  return `<p style=\"font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#333;\">${formatted}</p>`;\n};\n\nconst htmlBody = formatEmailHtml(rawDraft);\n\nreturn {\n  action,\n  customerName,\n  customerEmail,\n  subject,\n  persona,\n  theme,\n  htmlBody,\n  plainBody: rawDraft,\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        736
+      ],
+      "id": "febe1454-4e05-42bd-a583-c286ba122b22",
+      "name": "format email"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $('listen for clicks to button').item.json.callback_query.from.id }}",
+        "message": "=Text: \n✏️ *Edit Mode*\n\nPlease type your corrected reply below and send it as a message.\n\n_Replying for:_ {{ $json.customerName }} ({{ $json.customerEmail }})\nParse Mode: Markdown",
+        "responseType": "freeText",
+        "options": {
+          "messageButtonLabel": "Respond",
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        928
+      ],
+      "id": "08f991d2-2b2c-4d4d-b5af-90cb82d73acd",
+      "name": "edit",
+      "webhookId": "f924edf0-3ec9-4bf7-adc6-ee1df2b07b98",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// BOLDR — Workflow 2: Parse Edit Instruction\n// Code node: runs after \"Send and Wait for Response\" (edit node)\n// Place this BEFORE the Qwen HTTP Request node\n// ============================================================\n\n// ── Pull fields ───────────────────────────────────────────────\nconst agent_input    = $('edit').first().json.data.text.trim();\nconst original_draft = $('Switch').first().json.draftReply;\nconst customer_name  = $('Switch').first().json.customerName;\nconst customer_email = $('Switch').first().json.customerEmail;\nconst subject        = $('Switch').first().json.subject;\nconst ticket_id      = $('Switch').first().json.id;\n\n// ── Get first name safely ────────────────────────────────────\nconst first_name = (customer_name && customer_name.trim())\n  ? customer_name.split(' ')[0]\n  : 'there';\n\n// ── Detect edit mode ─────────────────────────────────────────\n// Pattern: \"X to Y\" or \"edit X to Y\" — partial replacement\nconst editPattern = /^(?:edit\\s+)?(.+?)\\s+to\\s+(.+)$/is;\nconst match = agent_input.match(editPattern);\n\n// Instruction-style: starts with action verbs or question words\nconst isInstruction = /^(can you|please|change|fix|remove|replace|update|make|add|rewrite|shorten|use|ensure|correct|adjust)/i.test(agent_input);\n\n// Full email: long or has greeting/sign-off\nconst looksLikeFullEmail = (\n  agent_input.length > 200 ||\n  /^(hi |hello |dear )/i.test(agent_input) ||\n  /(warm regards|best regards|kind regards|boldr customer service)/i.test(agent_input)\n);\n\nlet edit_mode;\nlet old_text       = '';\nlet new_text       = '';\nlet full_replacement = '';\nlet instruction    = '';\n\nif (looksLikeFullEmail) {\n  edit_mode = 'full_replacement';\n  full_replacement = agent_input;\n} else if (match && !isInstruction) {\n  edit_mode = 'partial_replacement';\n  old_text = match[1].trim();\n  new_text = match[2].trim();\n} else if (isInstruction || !match) {\n  edit_mode = 'instruction';\n  instruction = agent_input;\n} else {\n  edit_mode = 'full_replacement';\n  full_replacement = agent_input;\n}\n\n// ── Build Qwen prompt ─────────────────────────────────────────\nlet qwen_prompt = '';\n\nif (edit_mode === 'full_replacement') {\n  qwen_prompt = `You are a proofreader for BOLDR, a premium Singapore watch brand.\nA customer service agent has written a replacement email reply. Clean it up slightly for BOLDR brand voice — keep it friendly, direct, and professional. Do not change the meaning or add information.\n\nRules:\n- Ensure the email opens with \"Hi ${first_name}, thanks for reaching out! Happy to help with that.\" if no greeting exists\n- The greeting must be on its own line followed by a blank line\n- Each distinct point or thought must be its own paragraph with a blank line between them\n- The sign-off \"Warm regards, BOLDR Customer Service\" must be on its own line preceded by a blank line\n- Keep it friendly, direct, and professional\n- Do not write the entire reply as one block of text\n\nReturn ONLY the final cleaned email text. No JSON, no explanation, no code fences.\n\nAgent's replacement:\n${full_replacement}`;\n\n} else if (edit_mode === 'partial_replacement') {\n  qwen_prompt = `You are a proofreader for BOLDR, a premium Singapore watch brand.\nA customer service agent wants to make a specific edit to a draft email reply.\n\nOriginal draft:\n${original_draft}\n\nAgent instruction:\nChange \"${old_text}\" to \"${new_text}\"\n\nRules:\n- Apply ONLY the requested change, do not alter anything else\n- Ensure the email opens with \"Hi ${first_name}, thanks for reaching out! Happy to help with that.\" if no greeting exists\n- The greeting must be on its own line followed by a blank line\n- Each distinct point or thought must be its own paragraph with a blank line between them\n- The sign-off \"Warm regards, BOLDR Customer Service\" must be on its own line preceded by a blank line\n- Do not write the entire reply as one block of text\n\nReturn ONLY the final updated email text. No JSON, no explanation, no code fences.`;\n\n} else {\n  // instruction mode — Qwen interprets what the agent meant\n  qwen_prompt = `You are a proofreader for BOLDR, a premium Singapore watch brand.\nA customer service agent wants to edit a draft email reply. Read their instruction carefully and apply the change to the original draft.\n\nOriginal draft:\n${original_draft}\n\nAgent instruction:\n\"${instruction}\"\n\nRules:\n- Apply only what the agent asked for\n- Ensure the email opens with \"Hi ${first_name}, thanks for reaching out! Happy to help with that.\" if no greeting exists\n- The greeting must be on its own line followed by a blank line\n- Each distinct point or thought must be its own paragraph with a blank line between them\n- The sign-off \"Warm regards, BOLDR Customer Service\" must be on its own line preceded by a blank line\n- Do not add new information not in the original draft\n- Keep BOLDR brand voice — friendly, direct, premium\n- If the instruction is unclear, make the most reasonable interpretation\n- Do not write the entire reply as one block of text\n\nReturn ONLY the final updated email text. No JSON, no explanation, no code fences.`;\n}\n\n// ── Return everything forward ─────────────────────────────────\nreturn [{\n  json: {\n    qwen_prompt,\n    edit_mode,\n    original_draft,\n    first_name,\n    customer_name,\n    customer_email,\n    subject,\n    ticket_id,\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        928
+      ],
+      "id": "f66ab991-a28c-4b02-8a51-d8729b7a2afb",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n{\n  \"model\": \"qwen-plus\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": $json.qwen_prompt\n    }\n  ],\n  \"temperature\": 0.3\n}\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        928
+      ],
+      "id": "7e68097b-6deb-408a-9c6f-5c7438f88022",
+      "name": "calling of ai to direct using qwen"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('listen for clicks to button').item.json.callback_query.message.chat.id }}",
+        "text": "=email (Edited):\n\n{{ $json.choices[0].message.content }}",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ Approve & Send",
+                    "additionalFields": {
+                      "callback_data": "approve"
+                    }
+                  },
+                  {
+                    "text": "✏️ Edit",
+                    "additionalFields": {
+                      "callback_data": "edit"
+                    }
+                  },
+                  {
+                    "text": "Re-Route Ticket",
+                    "additionalFields": {
+                      "callback_data": "reroute_ticket"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1344,
+        928
+      ],
+      "id": "1b5694f2-a702-49fb-929e-c2bdeed8f736",
+      "name": "Send a text message",
+      "webhookId": "6031a86a-fa85-4ad6-ab8b-88f9df67c773",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('listen for clicks to button').item.json.callback_query.message.chat.id }}",
+        "text": "=⚑ *Escalation — Where should this go?*\n\n*From:* {{ $json.customerName }} ({{ $json.customerEmail }})\n*Subject:* {{ $json.subject }}\n*Ticket:* {{ $json.customerMessage }}\n\nSelect the team to escalate below:",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🏢 Corporate",
+                    "additionalFields": {
+                      "callback_data": "corporate_only"
+                    }
+                  },
+                  {
+                    "text": "🔧 Service Centre",
+                    "additionalFields": {
+                      "callback_data": "service_only"
+                    }
+                  },
+                  {
+                    "text": "📣 Marketing",
+                    "additionalFields": {
+                      "callback_data": "marketing_only"
+                    }
+                  },
+                  {
+                    "text": "👤 CS Team Lead",
+                    "additionalFields": {
+                      "callback_data": "team_lead_only"
+                    }
+                  },
+                  {
+                    "text": "👤 Shopify Admin ",
+                    "additionalFields": {
+                      "callback_data": "shopify_admin_only"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        1120
+      ],
+      "id": "c30c29a9-1392-4611-848e-7297af998e61",
+      "name": "re-routing",
+      "webhookId": "6475dcdb-3a59-42d6-bbe3-9fe2718a2a5b",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.customerEmail }}",
+        "subject": "=RE:  {{ $json.subject }}",
+        "message": "={{ $json.draftReply }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -224
+      ],
+      "id": "1011afbd-6585-43de-a6c8-9fc68bae7625",
+      "name": "send to customer",
+      "webhookId": "2f186b69-96fe-40c1-aef4-e6fe16a05f5f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "corporate@boldr.co",
+        "subject": "New corporate enquiry ",
+        "message": "=<p>Hi Corporate Sales team,</p>\n\n<p>A customer has submitted a bulk/corporate order enquiry that requires your attention. \nPlease review the details below and follow up with the customer directly.</p>\n\n<hr>\n\n<p>\n<strong>Customer:</strong> {{ $('spilt items').item.json.customerName }} ({{ $('spilt items').item.json.customerEmail }})<br>\n<strong>Subject:</strong> {{ $('spilt items').item.json.subject }}<br>\n<strong>Buyer Persona:{{ $('spilt items').item.json.persona }}</strong> <br>\n<strong>Theme:</strong>{{ $('spilt items').item.json.theme }} <br>\n<strong>Order ID:</strong> {{ $('spilt items').item.json.orderId ?? 'N/A' }}\n</p>\n\n<p><strong>Customer message:</strong></p>\n<blockquote>{{ $('spilt items').item.json.customerMessage }}</blockquote>\n\n\n\n<p>Please reply to the customer at <a href=\"mailto:{{ $('spilt items').item.json.customerEmail }}\">{{ $('spilt items').item.json.customerEmail }}</a> \nand CC <a href=\"mailto:cs@boldr.co\">cs@boldr.co</a> once handled.</p>\n\n<p>— BOLDR CS Customer Service</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        -224
+      ],
+      "id": "5680ec70-bf8c-49d2-ae00-b2e3d7913d73",
+      "name": "corporate",
+      "webhookId": "1af6656d-acc5-4b74-bf94-2631765ff644",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets?ticket_id=eq.{{ $('spilt items').item.json.ticketId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"escalated\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        -224
+      ],
+      "id": "c5c5b1fc-3e77-4538-bd98-6d674931f3c7",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets?ticket_id=eq.{{ $('spilt items').item.json.ticketId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"escalated\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        -32
+      ],
+      "id": "a7f75f2e-5884-4029-914e-b6fb3c686f39",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.customerEmail }}",
+        "subject": "=RE:  {{ $json.subject }}",
+        "message": "={{ $json.draftReply }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -32
+      ],
+      "id": "bd0a968d-3064-45da-b3ef-284ee372ccb9",
+      "name": "send to customer (service)",
+      "webhookId": "2f186b69-96fe-40c1-aef4-e6fe16a05f5f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "service@boldr.co",
+        "subject": "New Service enquiry ",
+        "message": "=<p>Hi Service centre team,</p>\n\n<p>A customer has submitted a Service order enquiry that requires your attention. \nPlease review the details below and follow up with the customer directly.</p>\n\n<hr>\n\n<p>\n<strong>Customer:</strong> {{ $('spilt items').item.json.customerName }} ({{ $('spilt items').item.json.customerEmail }})<br>\n<strong>Subject:</strong> {{ $('spilt items').item.json.subject }}<br>\n<strong>Buyer Persona:{{ $('spilt items').item.json.persona }}</strong> <br>\n<strong>Theme:</strong>{{ $('spilt items').item.json.theme }} <br>\n<strong>Order ID:</strong> {{ $('spilt items').item.json.orderId ?? 'N/A' }}\n</p>\n\n<p><strong>Customer message:</strong></p>\n<blockquote>{{ $('spilt items').item.json.customerMessage }}</blockquote>\n\n\n\n<p>Please reply to the customer at <a href=\"mailto:{{ $('spilt items').item.json.customerEmail }}\">{{ $('spilt items').item.json.customerEmail }}</a> \nand CC <a href=\"mailto:cs@boldr.co\">cs@boldr.co</a> once handled.</p>\n\n<p>— BOLDR CS Customer Service</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        -32
+      ],
+      "id": "28925a71-212b-4c50-b04b-f5db5b41e8f7",
+      "name": "service",
+      "webhookId": "1af6656d-acc5-4b74-bf94-2631765ff644",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets?ticket_id=eq.{{ $('spilt items').item.json.ticketId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"escalated\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        160
+      ],
+      "id": "a2f001c0-266d-45b8-9622-aa4f940607bb",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "sendTo": "marketing@boldr.co",
+        "subject": "New Marketing enquiry ",
+        "message": "=<p>Hi Marketing team,</p>\n\n<p>A customer has submitted a Media enquiry that requires your attention. \nPlease review the details below and follow up with the customer directly.</p>\n\n<hr>\n\n<p>\n<strong>Customer:</strong> {{ $('spilt items').item.json.customerName }} ({{ $('spilt items').item.json.customerEmail }})<br>\n<strong>Subject:</strong> {{ $('spilt items').item.json.subject }}<br>\n<strong>Buyer Persona:{{ $('spilt items').item.json.persona }}</strong> <br>\n<strong>Theme:</strong>{{ $('spilt items').item.json.theme }} <br>\n<strong>Order ID:</strong> {{ $('spilt items').item.json.orderId ?? 'N/A' }}\n</p>\n\n<p><strong>Customer message:</strong></p>\n<blockquote>{{ $('spilt items').item.json.customerMessage }}</blockquote>\n\n\n\n<p>Please reply to the customer at <a href=\"mailto:{{ $('spilt items').item.json.customerEmail }}\">{{ $('spilt items').item.json.customerEmail }}</a> \nand CC <a href=\"mailto:cs@boldr.co\">cs@boldr.co</a> once handled.</p>\n\n<p>— BOLDR CS Customer Service</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        160
+      ],
+      "id": "cef3d11f-5d55-4200-a5c6-a9af954cbc07",
+      "name": "marketing",
+      "webhookId": "1af6656d-acc5-4b74-bf94-2631765ff644",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.customerEmail }}",
+        "subject": "=RE:  {{ $json.subject }}",
+        "message": "={{ $json.draftReply }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        160
+      ],
+      "id": "e1cc23ff-7695-4806-ac49-14eeacd97255",
+      "name": "send to customer (marketing)",
+      "webhookId": "2f186b69-96fe-40c1-aef4-e6fe16a05f5f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets?ticket_id=eq.{{ $('spilt items').item.json.ticketId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"escalated\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        352
+      ],
+      "id": "d24548ad-d1b9-4c7b-b5fa-ef3699751d69",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "sendTo": "cs@boldr.co",
+        "subject": "New enquiry for team lead ",
+        "message": "=<p>Hi Team Lead,</p>\n\n<p>A customer has submitted a enquiry that requires your attention. \nPlease review the details below and follow up with the customer directly.</p>\n\n<hr>\n\n<p>\n<strong>Customer:</strong> {{ $('spilt items').item.json.customerName }} ({{ $('spilt items').item.json.customerEmail }})<br>\n<strong>Subject:</strong> {{ $('spilt items').item.json.subject }}<br>\n<strong>Buyer Persona:{{ $('spilt items').item.json.persona }}</strong> <br>\n<strong>Theme:</strong>{{ $('spilt items').item.json.theme }} <br>\n<strong>Order ID:</strong> {{ $('spilt items').item.json.orderId ?? 'N/A' }}\n</p>\n\n<p><strong>Customer message:</strong></p>\n<blockquote>{{ $('spilt items').item.json.customerMessage }}</blockquote>\n\n\n\n<p>Please reply to the customer at <a href=\"mailto:{{ $('spilt items').item.json.customerEmail }}\">{{ $('spilt items').item.json.customerEmail }}</a> \nand CC <a href=\"mailto:cs@boldr.co\">cs@boldr.co</a> once handled.</p>\n\n<p>— BOLDR CS Customer Service</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        352
+      ],
+      "id": "cd9f39a8-156a-441b-82dc-79a4a73cd27a",
+      "name": "team lead",
+      "webhookId": "1af6656d-acc5-4b74-bf94-2631765ff644",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets?ticket_id=eq.{{ $('spilt items').item.json.ticketId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"escalated\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        544
+      ],
+      "id": "41c7ae8a-671d-4a37-9d9f-cbadf56a824a",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.customerEmail }}",
+        "subject": "=RE:  {{ $json.subject }}",
+        "message": "={{ $json.draftReply }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        352
+      ],
+      "id": "8f285586-74b7-4454-8c7e-2a846f2dd85c",
+      "name": "send to customer (team lead)",
+      "webhookId": "2f186b69-96fe-40c1-aef4-e6fe16a05f5f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.customerEmail }}",
+        "subject": "=RE:  {{ $json.subject }}",
+        "message": "={{ $json.draftReply }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        544
+      ],
+      "id": "59b8aa01-b3a5-41e2-a661-152431aaabb5",
+      "name": "send to customer (shopify admin)",
+      "webhookId": "2f186b69-96fe-40c1-aef4-e6fe16a05f5f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "admin.shopify.com",
+        "subject": "New enquiry for Shopify admin",
+        "message": "=<p>Hi Shopify admin,</p>\n\n<p>A customer has submitted a enquiry that requires your attention. \nPlease review the details below and follow up with the customer directly.</p>\n\n<hr>\n\n<p>\n<strong>Customer:</strong> {{ $('spilt items').item.json.customerName }} ({{ $('spilt items').item.json.customerEmail }})<br>\n<strong>Subject:</strong> {{ $('spilt items').item.json.subject }}<br>\n<strong>Buyer Persona:{{ $('spilt items').item.json.persona }}</strong> <br>\n<strong>Theme:</strong>{{ $('spilt items').item.json.theme }} <br>\n<strong>Order ID:</strong> {{ $('spilt items').item.json.orderId ?? 'N/A' }}\n</p>\n\n<p><strong>Customer message:</strong></p>\n<blockquote>{{ $('spilt items').item.json.customerMessage }}</blockquote>\n\n\n\n<p>Please reply to the customer at <a href=\"mailto:{{ $('spilt items').item.json.customerEmail }}\">{{ $('spilt items').item.json.customerEmail }}</a> \nand CC <a href=\"mailto:cs@boldr.co\">cs@boldr.co</a> once handled.</p>\n\n<p>— BOLDR CS Customer Service</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        544
+      ],
+      "id": "3c572e93-af3a-41a8-adc9-94d3e583d8f5",
+      "name": "Shopify admin",
+      "webhookId": "1af6656d-acc5-4b74-bf94-2631765ff644",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "cs@boldr.co",
+        "subject": "=ACTION REQUIRED: New Enquiry - {{ $json.customerName }}",
+        "message": "=Hi Team Lead,\nA new corporate/bulk order enquiry has been received and requires human review.\nCustomer:  {{ $json.customerName }} ({{ $json.customerEmail }})\nTheme: {{ $json.theme }}\n\nOriginal Message:\n{{ $json.customerMessage }}\n\nPlease send your replies in the form below: ",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        1312
+      ],
+      "id": "4065cc89-384e-43bb-a342-cdd383420208",
+      "name": "team lead not in kb",
+      "webhookId": "21576aee-d122-4ae8-bc21-a7c06be2f9bf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('spilt items').item.json.customerEmail }}",
+        "subject": "=RE:  {{ $('spilt items').item.json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.data.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        1312
+      ],
+      "id": "5231e12f-e353-4e0a-a97d-0bdb1fc71239",
+      "name": "Send a message",
+      "webhookId": "77808923-f52c-46fa-9741-9c56fba1199b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.data.text;\n\n// Split into sentences and build paragraphs\nconst sentences = text.split(/(?<=[.!?])\\s+/);\n\n// Extract greeting (first sentence)\nconst greeting = sentences[0];\n\n// Extract sign-off (last two lines usually \"Best, Boldr...\")\nconst signOff = text.match(/(Best[,.][\\s\\S]*?)$/i)?.[1] || '';\n\n// Get body (everything between greeting and sign-off)\nconst bodyText = text\n  .replace(greeting, '')\n  .replace(signOff, '')\n  .trim();\n\n// Split body into paragraphs by \\n\\n or logical sentence groups\nconst paragraphs = bodyText\n  .split(/\\n\\n+/)\n  .map(p => p.trim())\n  .filter(p => p.length > 0)\n  .map(p => `<p>${p}</p>`)\n  .join('\\n');\n\n// Bold key terms\nconst boldTerms = [\n  'ISO 764',\n  'not shielded',\n  'strongly advise against',\n  'Venture Titanium',\n  'MRI',\n];\n\nlet formattedBody = paragraphs;\nboldTerms.forEach(term => {\n  formattedBody = formattedBody.replaceAll(term, `<strong>${term}</strong>`);\n});\n\nconst html = `\n<p>${greeting}</p>\n${formattedBody}\n${signOff ? `<p>${signOff.replace(/\\n/g, '<br>')}</p>` : ''}\n`.trim();\n\nreturn { json: { ...$input.item.json, formattedEmail: html } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        1312
+      ],
+      "id": "eed15bb8-8402-4150-8c46-8cdf1d5af728",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const customerMessage = $('spilt items').item.json.customerMessage;\nconst staffReply = $('Code in JavaScript1').item.json.formattedEmail;\n\nreturn {\n  json: {\n    model: \"qwen-plus\",\n    messages: [\n      {\n        role: \"system\",\ncontent: \"You are a knowledge base builder. Given a customer email and a staff response, extract and format them as a clean Q&A pair. Return only a JSON object with exactly three fields: 'question', 'answer', and 'theme'. For theme, you MUST pick exactly one from this list: product_general, strap_compatibility, materials_safety, order_status, servicing, engraving. No other values are allowed. No extra text.\"\n      },\n      {\n        role: \"user\",\n        content: `Customer Email:\\n${customerMessage}\\n\\nStaff Response:\\n${staffReply}`\n      }\n    ],\n    temperature: 0.2,\n    response_format: {\n      type: \"json_object\"\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        1312
+      ],
+      "id": "3a5741fa-e108-4ee7-8674-22433d3244c6",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        1312
+      ],
+      "id": "f27302f5-6891-499f-844e-4e2035257073",
+      "name": "calling of ai to direct using qwen1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.item.json.choices[0].message.content;\nconst parsed = JSON.parse(raw);\n\nreturn {\n  json: {\n    question: parsed.question,\n    answer: parsed.answer,\n    theme: parsed.theme\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        1312
+      ],
+      "id": "5c2c7560-af73-465e-92ac-a60312c98ef5",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "tableId": "knowledge_base",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "question",
+              "fieldValue": "={{ $('Code in JavaScript3').item.json.question }}"
+            },
+            {
+              "fieldId": "answer",
+              "fieldValue": "={{ $('Code in JavaScript3').item.json.answer }}"
+            },
+            {
+              "fieldId": "theme",
+              "fieldValue": "={{ $('Code in JavaScript3').item.json.theme }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "Ticket"
+            },
+            {
+              "fieldId": "source_ticket_id",
+              "fieldValue": "={{ $('spilt items').item.json.ticketId }}"
+            },
+            {
+              "fieldId": "approved",
+              "fieldValue": "=true"
+            },
+            {
+              "fieldId": "approved_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        1216
+      ],
+      "id": "6c3db5de-d198-4e1c-9079-b9b5f796f153",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        1216
+      ],
+      "id": "dabd271d-a4d7-4769-965c-66d84a1c8297",
+      "name": "Delete a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "cs@boldr.co",
+        "subject": "Approval of knowledge base",
+        "message": "=A new knowledge base entry requires your approval.\n\n📋 Theme: {{ $json.theme }}\n\n❓ Question:\n{{ $json.question }}\n\n💬 Answer:\n{{ $json.answer }}\n\nPlease review and click Approve or Decline below. ",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        1312
+      ],
+      "id": "4cb5ae56-cfdd-42e4-8e94-8bdb0470b421",
+      "name": "Send message and wait for response",
+      "webhookId": "798d5d45-03b5-4090-84c4-2ad801c9422c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "be16c187-0a2f-4c91-9b15-5c09d6360484",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2240,
+        1312
+      ],
+      "id": "7b9c3f21-db7d-4e05-9fc2-9794df2e5266",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        1408
+      ],
+      "id": "9fdfef5b-c33a-4d00-a9b0-5ec6939d5295",
+      "name": "Delete a row1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('spilt items').item.json.customerEmail }}",
+        "subject": "=RE:  {{ $('spilt items').item.json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.data.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        1696
+      ],
+      "id": "b65668c2-b3aa-4c6e-9246-7cd616a85684",
+      "name": "Send a message1",
+      "webhookId": "77808923-f52c-46fa-9741-9c56fba1199b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.data.text;\n\n// Split into sentences and build paragraphs\nconst sentences = text.split(/(?<=[.!?])\\s+/);\n\n// Extract greeting (first sentence)\nconst greeting = sentences[0];\n\n// Extract sign-off (last two lines usually \"Best, Boldr...\")\nconst signOff = text.match(/(Best[,.][\\s\\S]*?)$/i)?.[1] || '';\n\n// Get body (everything between greeting and sign-off)\nconst bodyText = text\n  .replace(greeting, '')\n  .replace(signOff, '')\n  .trim();\n\n// Split body into paragraphs by \\n\\n or logical sentence groups\nconst paragraphs = bodyText\n  .split(/\\n\\n+/)\n  .map(p => p.trim())\n  .filter(p => p.length > 0)\n  .map(p => `<p>${p}</p>`)\n  .join('\\n');\n\n// Bold key terms\nconst boldTerms = [\n  'ISO 764',\n  'not shielded',\n  'strongly advise against',\n  'Venture Titanium',\n  'MRI',\n];\n\nlet formattedBody = paragraphs;\nboldTerms.forEach(term => {\n  formattedBody = formattedBody.replaceAll(term, `<strong>${term}</strong>`);\n});\n\nconst html = `\n<p>${greeting}</p>\n${formattedBody}\n${signOff ? `<p>${signOff.replace(/\\n/g, '<br>')}</p>` : ''}\n`.trim();\n\nreturn { json: { ...$input.item.json, formattedEmail: html } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        1696
+      ],
+      "id": "82595413-b30e-4869-8e82-74d8837d5144",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const customerMessage = $('spilt items').item.json.customerMessage;\nconst staffReply = $('Code in JavaScript4').item.json.formattedEmail;\n\nreturn {\n  json: {\n    model: \"qwen-plus\",\n    messages: [\n      {\n        role: \"system\",\ncontent: \"You are a knowledge base builder. Given a customer email and a staff response, extract and format them as a clean Q&A pair. Return only a JSON object with exactly three fields: 'question', 'answer', and 'theme'. For theme, you MUST pick exactly one from this list: product_general, strap_compatibility, materials_safety, order_status, servicing, engraving. No other values are allowed. No extra text.\"\n      },\n      {\n        role: \"user\",\n        content: `Customer Email:\\n${customerMessage}\\n\\nStaff Response:\\n${staffReply}`\n      }\n    ],\n    temperature: 0.2,\n    response_format: {\n      type: \"json_object\"\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        1696
+      ],
+      "id": "1c08f2d0-1ded-40ac-80dc-8f9ee84f3e0f",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        1696
+      ],
+      "id": "17076956-f988-47c5-861a-171bde933b97",
+      "name": "calling of ai to direct using qwen2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.item.json.choices[0].message.content;\nconst parsed = JSON.parse(raw);\n\nreturn {\n  json: {\n    question: parsed.question,\n    answer: parsed.answer,\n    theme: parsed.theme\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        1696
+      ],
+      "id": "440a8409-fc7c-44bb-99ef-2d9f631eb6e6",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "tableId": "knowledge_base",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "question",
+              "fieldValue": "={{ $json.question }}"
+            },
+            {
+              "fieldId": "answer",
+              "fieldValue": "={{ $json.answer }}"
+            },
+            {
+              "fieldId": "theme",
+              "fieldValue": "={{ $json.theme }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "Ticket"
+            },
+            {
+              "fieldId": "source_ticket_id",
+              "fieldValue": "={{ $('spilt items').item.json.ticketId }}"
+            },
+            {
+              "fieldId": "approved",
+              "fieldValue": "=true"
+            },
+            {
+              "fieldId": "approved_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        1600
+      ],
+      "id": "badd0800-e02e-4f1f-9fa9-e92c2c7cfb83",
+      "name": "Create a row1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        1600
+      ],
+      "id": "f43f5fa4-b9f5-47da-b38b-79807f9cf752",
+      "name": "Delete a row2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "admin.shopify.com",
+        "subject": "Approval of knowledge base",
+        "message": "=A new knowledge base entry requires your approval.\n\n📋 Theme: {{ $json.theme }}\n\n❓ Question:\n{{ $json.question }}\n\n💬 Answer:\n{{ $json.answer }}\n\nPlease review and click Approve or Decline below. ",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        1696
+      ],
+      "id": "7d618b31-14d5-4052-b0c2-e880fc161716",
+      "name": "Send message and wait for response1",
+      "webhookId": "798d5d45-03b5-4090-84c4-2ad801c9422c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "be16c187-0a2f-4c91-9b15-5c09d6360484",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2240,
+        1696
+      ],
+      "id": "17482001-5f95-4d79-a83f-a6ef8dbc7667",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        1792
+      ],
+      "id": "e33555d8-7421-41ee-ac35-f627cd15025d",
+      "name": "Delete a row3",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "admin.shopify.com",
+        "subject": "=ACTION REQUIRED: Enquiry - {{ $json.customerEmail }}",
+        "message": "=Hi Shopify admin,\nA new enquiry has been received and requires human review.\nCustomer:  {{ $json.customerName }} ({{ $json.customerEmail }})\nTheme: {{ $json.theme }}\n\nOriginal Message:\n{{ $json.customerMessage }}\n\nPlease send your replies in the form below: ",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        1696
+      ],
+      "id": "2bb63a4b-f93f-4ebf-bc4d-8716e17cbb46",
+      "name": "shopify admin not in kb1",
+      "webhookId": "21576aee-d122-4ae8-bc21-a7c06be2f9bf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('spilt items').item.json.customerEmail }}",
+        "subject": "=RE:  {{ $('spilt items').item.json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.data.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        2080
+      ],
+      "id": "aba71fa8-af80-4b87-a273-ca65c51ba2c6",
+      "name": "Send a message2",
+      "webhookId": "77808923-f52c-46fa-9741-9c56fba1199b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.data.text;\n\n// Split into sentences and build paragraphs\nconst sentences = text.split(/(?<=[.!?])\\s+/);\n\n// Extract greeting (first sentence)\nconst greeting = sentences[0];\n\n// Extract sign-off (last two lines usually \"Best, Boldr...\")\nconst signOff = text.match(/(Best[,.][\\s\\S]*?)$/i)?.[1] || '';\n\n// Get body (everything between greeting and sign-off)\nconst bodyText = text\n  .replace(greeting, '')\n  .replace(signOff, '')\n  .trim();\n\n// Split body into paragraphs by \\n\\n or logical sentence groups\nconst paragraphs = bodyText\n  .split(/\\n\\n+/)\n  .map(p => p.trim())\n  .filter(p => p.length > 0)\n  .map(p => `<p>${p}</p>`)\n  .join('\\n');\n\n// Bold key terms\nconst boldTerms = [\n  'ISO 764',\n  'not shielded',\n  'strongly advise against',\n  'Venture Titanium',\n  'MRI',\n];\n\nlet formattedBody = paragraphs;\nboldTerms.forEach(term => {\n  formattedBody = formattedBody.replaceAll(term, `<strong>${term}</strong>`);\n});\n\nconst html = `\n<p>${greeting}</p>\n${formattedBody}\n${signOff ? `<p>${signOff.replace(/\\n/g, '<br>')}</p>` : ''}\n`.trim();\n\nreturn { json: { ...$input.item.json, formattedEmail: html } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        2080
+      ],
+      "id": "85438b91-38b7-40e4-8e83-9cafabd77b90",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "jsCode": "const customerMessage = $('spilt items').item.json.customerMessage;\nconst staffReply = $('Code in JavaScript7').item.json.formattedEmail;\n\nreturn {\n  json: {\n    model: \"qwen-plus\",\n    messages: [\n      {\n        role: \"system\",\ncontent: \"You are a knowledge base builder. Given a customer email and a staff response, extract and format them as a clean Q&A pair. Return only a JSON object with exactly three fields: 'question', 'answer', and 'theme'. For theme, you MUST pick exactly one from this list: product_general, strap_compatibility, materials_safety, order_status, servicing, engraving. No other values are allowed. No extra text.\"\n      },\n      {\n        role: \"user\",\n        content: `Customer Email:\\n${customerMessage}\\n\\nStaff Response:\\n${staffReply}`\n      }\n    ],\n    temperature: 0.2,\n    response_format: {\n      type: \"json_object\"\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        2080
+      ],
+      "id": "b4aa4c87-9404-4bed-abd6-3950cf63d33a",
+      "name": "Code in JavaScript8"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        2080
+      ],
+      "id": "8bf1cc1e-3b7e-4327-99df-3e9b897619a8",
+      "name": "calling of ai to direct using qwen3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.item.json.choices[0].message.content;\nconst parsed = JSON.parse(raw);\n\nreturn {\n  json: {\n    question: parsed.question,\n    answer: parsed.answer,\n    theme: parsed.theme\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        2080
+      ],
+      "id": "a5725796-09e6-4892-953a-dcb8474fd405",
+      "name": "Code in JavaScript9"
+    },
+    {
+      "parameters": {
+        "tableId": "knowledge_base",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "question",
+              "fieldValue": "={{ $json.question }}"
+            },
+            {
+              "fieldId": "answer",
+              "fieldValue": "={{ $json.answer }}"
+            },
+            {
+              "fieldId": "theme",
+              "fieldValue": "={{ $json.theme }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "Ticket"
+            },
+            {
+              "fieldId": "source_ticket_id",
+              "fieldValue": "={{ $('spilt items').item.json.ticketId }}"
+            },
+            {
+              "fieldId": "approved",
+              "fieldValue": "=true"
+            },
+            {
+              "fieldId": "approved_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        1984
+      ],
+      "id": "e846a1ff-304f-41b2-a4dc-541283060218",
+      "name": "Create a row2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        1984
+      ],
+      "id": "e6e5431d-c928-45c6-98a4-97b3e7367298",
+      "name": "Delete a row4",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "marketing@boldr.co",
+        "subject": "Approval of knowledge base",
+        "message": "=A new knowledge base entry requires your approval.\n\n📋 Theme: {{ $json.theme }}\n\n❓ Question:\n{{ $json.question }}\n\n💬 Answer:\n{{ $json.answer }}\n\nPlease review and click Approve or Decline below. ",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        2080
+      ],
+      "id": "a655643b-ab25-47fe-be28-e8d2450605f4",
+      "name": "Send message and wait for response2",
+      "webhookId": "798d5d45-03b5-4090-84c4-2ad801c9422c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "be16c187-0a2f-4c91-9b15-5c09d6360484",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2240,
+        2080
+      ],
+      "id": "56ec233c-afb6-47ed-9076-343c5eaea8db",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        2176
+      ],
+      "id": "47751661-8d07-49d2-bbc8-402e51ac5d90",
+      "name": "Delete a row5",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "marketing@boldr.co",
+        "subject": "=ACTION REQUIRED: New Media Enquiry - {{ $json.customerEmail }}",
+        "message": "=Hi Marketing team,\nA new enquiry has been received and requires human review.\nCustomer:  {{ $json.customerName }} ({{ $json.customerEmail }})\nTheme: {{ $json.theme }}\n\nOriginal Message:\n{{ $json.customerMessage }}\n\nPlease send your replies in the form below: ",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        2080
+      ],
+      "id": "ef40ad42-4a10-421c-8cbb-4769566aa4e3",
+      "name": "marketing not in kb",
+      "webhookId": "21576aee-d122-4ae8-bc21-a7c06be2f9bf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('spilt items').item.json.customerEmail }}",
+        "subject": "=RE:  {{ $('spilt items').item.json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.data.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        2464
+      ],
+      "id": "051cc6d6-dc77-47aa-aff3-68da303243c7",
+      "name": "Send a message3",
+      "webhookId": "77808923-f52c-46fa-9741-9c56fba1199b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.data.text;\n\n// Split into sentences and build paragraphs\nconst sentences = text.split(/(?<=[.!?])\\s+/);\n\n// Extract greeting (first sentence)\nconst greeting = sentences[0];\n\n// Extract sign-off (last two lines usually \"Best, Boldr...\")\nconst signOff = text.match(/(Best[,.][\\s\\S]*?)$/i)?.[1] || '';\n\n// Get body (everything between greeting and sign-off)\nconst bodyText = text\n  .replace(greeting, '')\n  .replace(signOff, '')\n  .trim();\n\n// Split body into paragraphs by \\n\\n or logical sentence groups\nconst paragraphs = bodyText\n  .split(/\\n\\n+/)\n  .map(p => p.trim())\n  .filter(p => p.length > 0)\n  .map(p => `<p>${p}</p>`)\n  .join('\\n');\n\n// Bold key terms\nconst boldTerms = [\n  'ISO 764',\n  'not shielded',\n  'strongly advise against',\n  'Venture Titanium',\n  'MRI',\n];\n\nlet formattedBody = paragraphs;\nboldTerms.forEach(term => {\n  formattedBody = formattedBody.replaceAll(term, `<strong>${term}</strong>`);\n});\n\nconst html = `\n<p>${greeting}</p>\n${formattedBody}\n${signOff ? `<p>${signOff.replace(/\\n/g, '<br>')}</p>` : ''}\n`.trim();\n\nreturn { json: { ...$input.item.json, formattedEmail: html } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        2464
+      ],
+      "id": "b7703160-5392-4215-aaf0-c849bfb8a050",
+      "name": "Code in JavaScript10"
+    },
+    {
+      "parameters": {
+        "jsCode": "const customerMessage = $('spilt items').item.json.customerMessage;\nconst staffReply = $('Code in JavaScript10').item.json.formattedEmail;\n\nreturn {\n  json: {\n    model: \"qwen-plus\",\n    messages: [\n      {\n        role: \"system\",\ncontent: \"You are a knowledge base builder. Given a customer email and a staff response, extract and format them as a clean Q&A pair. Return only a JSON object with exactly three fields: 'question', 'answer', and 'theme'. For theme, you MUST pick exactly one from this list: product_general, strap_compatibility, materials_safety, order_status, servicing, engraving. No other values are allowed. No extra text.\"\n      },\n      {\n        role: \"user\",\n        content: `Customer Email:\\n${customerMessage}\\n\\nStaff Response:\\n${staffReply}`\n      }\n    ],\n    temperature: 0.2,\n    response_format: {\n      type: \"json_object\"\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        2464
+      ],
+      "id": "57b56d72-d9d5-482e-9355-b91ac9f5c495",
+      "name": "Code in JavaScript11"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        2464
+      ],
+      "id": "f90277e0-70e0-4abc-bf63-8cf7e970e7cf",
+      "name": "calling of ai to direct using qwen4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.item.json.choices[0].message.content;\nconst parsed = JSON.parse(raw);\n\nreturn {\n  json: {\n    question: parsed.question,\n    answer: parsed.answer,\n    theme: parsed.theme\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        2464
+      ],
+      "id": "468dc131-704c-4ddc-ba40-b65f41b245a6",
+      "name": "Code in JavaScript12"
+    },
+    {
+      "parameters": {
+        "tableId": "knowledge_base",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "question",
+              "fieldValue": "={{ $json.question }}"
+            },
+            {
+              "fieldId": "answer",
+              "fieldValue": "={{ $json.answer }}"
+            },
+            {
+              "fieldId": "theme",
+              "fieldValue": "={{ $json.theme }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "Ticket"
+            },
+            {
+              "fieldId": "source_ticket_id",
+              "fieldValue": "={{ $('spilt items').item.json.ticketId }}"
+            },
+            {
+              "fieldId": "approved",
+              "fieldValue": "=true"
+            },
+            {
+              "fieldId": "approved_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        2368
+      ],
+      "id": "3886ed7b-0402-49b0-ab7c-1b1d78b3daf2",
+      "name": "Create a row3",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        2368
+      ],
+      "id": "f86dc947-6808-4727-b395-73458e6c1a41",
+      "name": "Delete a row6",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "service@boldr.co",
+        "subject": "Approval of knowledge base",
+        "message": "=A new knowledge base entry requires your approval.\n\n📋 Theme: {{ $json.theme }}\n\n❓ Question:\n{{ $json.question }}\n\n💬 Answer:\n{{ $json.answer }}\n\nPlease review and click Approve or Decline below. ",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        2464
+      ],
+      "id": "03918062-0afd-4b37-8420-233cd744838e",
+      "name": "Send message and wait for response3",
+      "webhookId": "798d5d45-03b5-4090-84c4-2ad801c9422c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "be16c187-0a2f-4c91-9b15-5c09d6360484",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2240,
+        2464
+      ],
+      "id": "a72fbd35-5288-439e-98c0-2e779bf5f452",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        2560
+      ],
+      "id": "d7e2bb59-a82d-4a71-b5b7-662a75283c7d",
+      "name": "Delete a row7",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('spilt items').item.json.customerEmail }}",
+        "subject": "=RE:  {{ $('spilt items').item.json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.data.text }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        2848
+      ],
+      "id": "afa02069-7cbd-45f2-a562-c7fb0def07f9",
+      "name": "Send a message4",
+      "webhookId": "77808923-f52c-46fa-9741-9c56fba1199b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.data.text;\n\n// Split into sentences and build paragraphs\nconst sentences = text.split(/(?<=[.!?])\\s+/);\n\n// Extract greeting (first sentence)\nconst greeting = sentences[0];\n\n// Extract sign-off (last two lines usually \"Best, Boldr...\")\nconst signOff = text.match(/(Best[,.][\\s\\S]*?)$/i)?.[1] || '';\n\n// Get body (everything between greeting and sign-off)\nconst bodyText = text\n  .replace(greeting, '')\n  .replace(signOff, '')\n  .trim();\n\n// Split body into paragraphs by \\n\\n or logical sentence groups\nconst paragraphs = bodyText\n  .split(/\\n\\n+/)\n  .map(p => p.trim())\n  .filter(p => p.length > 0)\n  .map(p => `<p>${p}</p>`)\n  .join('\\n');\n\n// Bold key terms\nconst boldTerms = [\n  'ISO 764',\n  'not shielded',\n  'strongly advise against',\n  'Venture Titanium',\n  'MRI',\n];\n\nlet formattedBody = paragraphs;\nboldTerms.forEach(term => {\n  formattedBody = formattedBody.replaceAll(term, `<strong>${term}</strong>`);\n});\n\nconst html = `\n<p>${greeting}</p>\n${formattedBody}\n${signOff ? `<p>${signOff.replace(/\\n/g, '<br>')}</p>` : ''}\n`.trim();\n\nreturn { json: { ...$input.item.json, formattedEmail: html } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        2848
+      ],
+      "id": "2b27ecfd-9d20-4040-8df5-d421d72444f5",
+      "name": "Code in JavaScript13"
+    },
+    {
+      "parameters": {
+        "jsCode": "const customerMessage = $('spilt items').item.json.customerMessage;\nconst staffReply = $('Code in JavaScript13').item.json.formattedEmail;\n\nreturn {\n  json: {\n    model: \"qwen-plus\",\n    messages: [\n      {\n        role: \"system\",\ncontent: \"You are a knowledge base builder. Given a customer email and a staff response, extract and format them as a clean Q&A pair. Return only a JSON object with exactly three fields: 'question', 'answer', and 'theme'. For theme, you MUST pick exactly one from this list: product_general, strap_compatibility, materials_safety, order_status, servicing, engraving. No other values are allowed. No extra text.\"\n      },\n      {\n        role: \"user\",\n        content: `Customer Email:\\n${customerMessage}\\n\\nStaff Response:\\n${staffReply}`\n      }\n    ],\n    temperature: 0.2,\n    response_format: {\n      type: \"json_object\"\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        2848
+      ],
+      "id": "ae6dde8c-bf7b-42c6-9b32-f85c9a541897",
+      "name": "Code in JavaScript14"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        2848
+      ],
+      "id": "6b270cd8-59bf-43e4-ae60-57dd348aa917",
+      "name": "calling of ai to direct using qwen5"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.item.json.choices[0].message.content;\nconst parsed = JSON.parse(raw);\n\nreturn {\n  json: {\n    question: parsed.question,\n    answer: parsed.answer,\n    theme: parsed.theme\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        2848
+      ],
+      "id": "be2e0cc1-9502-40bf-8a7d-b5fea0c64f3b",
+      "name": "Code in JavaScript15"
+    },
+    {
+      "parameters": {
+        "tableId": "knowledge_base",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "question",
+              "fieldValue": "={{ $json.question }}"
+            },
+            {
+              "fieldId": "answer",
+              "fieldValue": "={{ $json.answer }}"
+            },
+            {
+              "fieldId": "theme",
+              "fieldValue": "={{ $json.theme }}"
+            },
+            {
+              "fieldId": "source",
+              "fieldValue": "Ticket"
+            },
+            {
+              "fieldId": "source_ticket_id",
+              "fieldValue": "={{ $('spilt items').item.json.ticketId }}"
+            },
+            {
+              "fieldId": "approved",
+              "fieldValue": "=true"
+            },
+            {
+              "fieldId": "approved_at",
+              "fieldValue": "={{ $now.toISO() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        2752
+      ],
+      "id": "d8f4765f-8c18-49ac-af0c-544f10d57a8f",
+      "name": "Create a row4",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        2752
+      ],
+      "id": "e1e60068-aafa-47c5-ab1b-4661b0827b77",
+      "name": "Delete a row8",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "corporate@boldr.co",
+        "subject": "Approval of knowledge base",
+        "message": "=A new knowledge base entry requires your approval.\n\n📋 Theme: {{ $json.theme }}\n\n❓ Question:\n{{ $json.question }}\n\n💬 Answer:\n{{ $json.answer }}\n\nPlease review and click Approve or Decline below. ",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        2848
+      ],
+      "id": "3022e8ca-2f37-4421-b44e-0948a40179ed",
+      "name": "Send message and wait for response4",
+      "webhookId": "798d5d45-03b5-4090-84c4-2ad801c9422c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "be16c187-0a2f-4c91-9b15-5c09d6360484",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2240,
+        2848
+      ],
+      "id": "3adc933b-6cb0-48ce-ba25-87bbe67ebc0f",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "knowledge_gaps",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "ticket_id",
+              "condition": "eq",
+              "keyValue": "={{ $('spilt items').item.json.ticketId }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        2944
+      ],
+      "id": "e8145599-10cf-42d0-b339-b4401b000557",
+      "name": "Delete a row9",
+      "credentials": {
+        "supabaseApi": {
+          "id": "htF9Dci4SCKzAB4F",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "corporate@boldr.co",
+        "subject": "=ACTION REQUIRED:Corporate/Bulk Order Service Enquiry - {{ $json.customerEmail }}",
+        "message": "=Hi Corporate Team,\nA new enquiry has been received and requires human review.\nCustomer:  {{ $json.customerName }} ({{ $json.customerEmail }})\nTheme: {{ $json.theme }}\n\nOriginal Message:\n{{ $json.customerMessage }}\n\nPlease send your replies in the form below: ",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        2848
+      ],
+      "id": "0d6620b0-0e5a-433a-8c35-9255e7742793",
+      "name": "corporate not in kb",
+      "webhookId": "21576aee-d122-4ae8-bc21-a7c06be2f9bf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "service@boldr.co",
+        "subject": "=ACTION REQUIRED: New Service Enquiry - {{ $json.customerEmail }}",
+        "message": "=Hi Service Centre Team,\nA new enquiry has been received and requires human review.\nCustomer:  {{ $json.customerName }} ({{ $json.customerEmail }})\nTheme: {{ $json.theme }}\n\nOriginal Message:\n{{ $json.customerMessage }}\n\nPlease send your replies in the form below: ",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        2464
+      ],
+      "id": "e8716c7c-6ee8-4bcc-b64f-abe47a690a90",
+      "name": "service not in kb",
+      "webhookId": "21576aee-d122-4ae8-bc21-a7c06be2f9bf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0EulBvYZJo6THjpk",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -16,
+        928
+      ],
+      "id": "80dcd0ea-cd27-4fcb-b828-ceaf0f3cb0c0",
+      "name": "listen for clicks to button",
+      "webhookId": "04b75b05-2e04-4536-980d-b69adb3258a2",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "send to customer",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "send to customer (service)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "send to customer (marketing)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "send to customer (team lead)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "send to customer (shopify admin)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "format email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "edit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "re-routing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "corporate not in kb",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "service not in kb",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "marketing not in kb",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "team lead not in kb",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "shopify admin not in kb1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "spilt items": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format email": {
+      "main": [
+        [
+          {
+            "node": "approve",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "edit": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send to customer": {
+      "main": [
+        [
+          {
+            "node": "corporate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "corporate": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send to customer (service)": {
+      "main": [
+        [
+          {
+            "node": "service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "service": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "marketing": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send to customer (marketing)": {
+      "main": [
+        [
+          {
+            "node": "marketing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "team lead": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send to customer (team lead)": {
+      "main": [
+        [
+          {
+            "node": "team lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send to customer (shopify admin)": {
+      "main": [
+        [
+          {
+            "node": "Shopify admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Shopify admin": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "team lead not in kb": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Delete a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row1": {
+      "main": [
+        [
+          {
+            "node": "Delete a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Create a row1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "shopify admin not in kb1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript8": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript9": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row2": {
+      "main": [
+        [
+          {
+            "node": "Delete a row4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response2": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Create a row2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete a row5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "marketing not in kb": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript10": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript11": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen4": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript12": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row3": {
+      "main": [
+        [
+          {
+            "node": "Delete a row6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response3": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Create a row3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete a row7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message4": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript13": {
+      "main": [
+        [
+          {
+            "node": "Send a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript14": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen5": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript15": {
+      "main": [
+        [
+          {
+            "node": "Send message and wait for response4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row4": {
+      "main": [
+        [
+          {
+            "node": "Delete a row8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response4": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Create a row4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete a row9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "corporate not in kb": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "service not in kb": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "listen for clicks to button": {
+      "main": [
+        [
+          {
+            "node": "spilt items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "58543b6c-416a-4400-b411-7b664cc29c99",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e15a76d984d1d533ae2eea02153c3167b29a7fcb76903065faed6e65c50e681"
+  },
+  "id": "mLfeK5RzS1aHZAFd",
+  "tags": []
+}
