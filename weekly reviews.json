@@ -1,0 +1,412 @@
+{
+  "name": "weekly reviews",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        400
+      ],
+      "id": "f69b27e7-e07c-49e7-8141-820fb5a082bb",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_base?approved=eq.true&select=question,answer,theme,source_ticket_id",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "created_at",
+              "value": "=gte.{{ $now.startOf('week').toISO() }}"
+            },
+            {
+              "name": "created_at",
+              "value": "=lt.{{ $now.toISO() }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        608,
+        304
+      ],
+      "id": "4fa16c36-19be-4236-a32b-d645d751393a",
+      "name": "GET: Knowledge base inside supabase"
+    },
+    {
+      "parameters": {
+        "jsCode": "const kb_rows = $input.first().json.kb_rows;\nconst ticket_rows = $input.first().json.ticket_rows;\n\n// Build a lookup map from ticket_id → buyer_persona\nconst ticketPersonaMap = {};\nfor (const ticket of ticket_rows) {\n  ticketPersonaMap[ticket.ticket_id] = ticket.buyer_persona;\n}\n\n// Fallback persona map by theme\nconst personaMap = {\n  materials: 'health_conscious',\n  sustainability: 'sustainability_advocate',\n  sizing: 'enthusiast_active_outdoor',\n  gifting: 'gifter'\n};\n\nconst grouped = {};\n\nfor (const item of kb_rows) {\n  const theme = item.theme;\n  // Use ticket persona if available, fallback to theme map\n  const persona = ticketPersonaMap[item.source_ticket_id] \n    || personaMap[theme] \n    || 'unknown';\n\n  if (!grouped[theme]) {\n    grouped[theme] = {\n      theme,\n      persona,\n      ticket_count: 0,\n      questions: []\n    };\n  }\n\n  grouped[theme].ticket_count++;\n  grouped[theme].questions.push(item.question);\n}\n\nreturn Object.values(grouped).map(group => ({ json: group }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        400
+      ],
+      "id": "cae7730f-1c37-46dc-a9d0-eaa128a55857",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "created_at",
+              "value": "=gte.{{ $now.startOf('week').toISO() }}"
+            },
+            {
+              "name": "created_at",
+              "value": "=gte.{{ $now.startOf('week').toISO() }}"
+            },
+            {
+              "name": "select",
+              "value": "ticket_id,subject,buyer_persona,created_at"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        608,
+        496
+      ],
+      "id": "cd10a7e9-a9c4-4ea7-9edb-210d0c535444",
+      "name": "GET: tickets persona inside supabase1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "kb_rows",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        832,
+        304
+      ],
+      "id": "307bc891-6a07-45a5-b024-9224d2b84872",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "ticket_rows",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        832,
+        496
+      ],
+      "id": "7aad5c0b-2dd7-4066-85e9-12e301b863d6",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1056,
+        400
+      ],
+      "id": "59f0296a-e32e-4839-aca6-26da581865b7",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "={{ $json.telegram_message }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2400,
+        400
+      ],
+      "id": "87978c86-fb92-463a-af66-9caa72e58d97",
+      "name": "Send a text message",
+      "webhookId": "bfac719e-37c9-4ec7-8205-13202af2b4aa",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "weekly_themes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        400
+      ],
+      "id": "2e34fa10-a420-4a1e-a460-0d1e65ab9ad7",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const weekly_gaps = $input.first().json.weekly_gaps;\n\nconst system_prompt = \"You are a customer service operations assistant for Boldr, a Singapore premium watch brand. Your job is to cluster novel or unanswered customer enquiries from the past week into themes. Be concise and operational — this output is for the CS team, not marketing.\";\n\nconst strict_schema = `{\n  \"themes\": [\n    {\n      \"theme_name\": \"string\",\n      \"ticket_count\": \"number\",\n      \"description\": \"string\"\n    }\n  ],\n  \"weekly_summary\": \"string\"\n}`;\n\nconst user_prompt = \"Here are this week's novel or unanswered customer enquiries: \" +\n  JSON.stringify(weekly_gaps) +\n  \" Cluster these enquiries into themes.\" +\n  \" Respond ONLY in JSON. Do not add any fields, keys, or properties beyond what is specified.\" +\n  \" Do not include markdown, backticks, or explanatory text.\" +\n  \" The response must strictly match this exact schema and no other: \" + strict_schema +\n  \" Rules: themes[].theme_name = short label for the cluster (string).\" +\n  \" themes[].ticket_count = number of tickets in that cluster (number, not string).\" +\n  \" themes[].description = one-line summary of what customers are asking (string).\" +\n  \" weekly_summary = one plain sentence summarising all clusters e.g. 'This week: 3 questions about vegan straps, 2 about nickel allergy — all flagged as knowledge gaps' (string).\";\n\nreturn [{\n  json: {\n    system_prompt,\n    user_prompt,\n    weekly_gaps\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        400
+      ],
+      "id": "b10094f5-023c-4085-a33e-6b9962f61388",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen-plus\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": {{JSON.stringify($json.system_prompt)}}\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{JSON.stringify($json.user_prompt)}}\n    }\n  ],\n  \"temperature\": 0.2,\n  \"response_format\": {\n    \"type\": \"json_object\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1952,
+        400
+      ],
+      "id": "fbde4354-d51b-442b-805b-996c3450d907",
+      "name": "calling of ai to direct using qwen"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\n\n// Extract the content string from the nested structure\nconst content = raw.choices[0].message.content;\n\n// Parse the stringified JSON inside content\nconst parsed = JSON.parse(content);\n\nreturn [{\n  json: {\n    themes: parsed.themes,\n    weekly_summary: parsed.weekly_summary,\n    // Pass through useful metadata\n    model: raw.model,\n    total_tokens: raw.usage.total_tokens,\n    created: raw.created\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2176,
+        400
+      ],
+      "id": "d5a898f9-873a-4ca8-ba5e-f536da4afb7e",
+      "name": "Code in JavaScript2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GET: Knowledge base inside supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: tickets persona inside supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Knowledge base inside supabase": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: tickets persona inside supabase1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9ca7a068-f915-4f2a-b0c4-7dab168f836a",
+  "meta": {
+    "instanceId": "0e15a76d984d1d533ae2eea02153c3167b29a7fcb76903065faed6e65c50e681"
+  },
+  "id": "sEwPszlhy1JQGqi2",
+  "tags": []
+}
