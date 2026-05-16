@@ -6,8 +6,10 @@ A self-improving customer intelligence engine built for the Echelon 2026 AI Work
 
 - [Business Impact](#business-impact)
 - [Cost Realism](#cost-realism)
+- [Safeguards](#safeguards)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
+- [Proof of Execution](#proof-of-execution)
 - [Getting Started](#getting-started)
   - [Gmail](#gmail)
   - [Qwen (AI)](#qwen-ai)
@@ -104,6 +106,33 @@ upgrades ($25 USD/month) if the free tier limits are exceeded.
 
 ---
 
+## Safeguards
+
+Echelon is built with a human-in-the-loop approach at every critical step. The AI never acts alone on anything customer-facing or knowledge-critical.
+
+### Email Approval via Telegram
+
+Every AI-drafted reply is sent to the team via **Telegram for approval before anything is sent**. Staff can review the full email content and confirm it is correct. This catches any AI errors, off-brand phrasing, or incorrect information before it reaches the customer.
+
+### No Knowledge? No Guessing.
+
+If the AI cannot find a relevant answer in the knowledge base, it **does not hallucinate or make up a response**. Instead it:
+
+1. Sends an email to the respective person responsible for that topic
+2. Waits for them to respond with the correct answer
+3. Uses that human-provided answer to draft the reply
+
+### Knowledge Base Gate
+
+Once a knowledge gap has been resolved, the system checks with the **team lead** on whether the new information should be added to the knowledge base permanently. The lead can either:
+
+- **Approve** -- the entry is added to the knowledge base for future use
+- **Reject** -- the entry is deleted from the knowledge gaps table and not retained
+
+This ensures the knowledge base only grows with verified, intentional information and never accumulates noise or one-off answers that should not be reused.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology | Reason |
@@ -124,6 +153,27 @@ Echelon is built on n8n as its automation backbone, connecting:
 - **Qwen Plus** -- handles AI-powered processing within workflows
 - **Gmail** -- manages outbound communication to customers and the team
 - **Telegram** -- enables staff to approve or action requests on the go
+
+---
+
+## Proof of Execution
+
+The following screenshots show the live Supabase database powering Echelon in production.
+
+### Tickets Table
+Real inbound customer tickets ingested and stored, including ticket ID, date received, customer name, email, order ID, and channel (email, WhatsApp, Instagram DM, chat).
+
+![Tickets Table](screenshots/tickets.png)
+
+### Knowledge Base Table
+46 live knowledge base entries covering materials, engraving, sizing, servicing, and more -- each with a question and a verified answer ready for AI retrieval.
+
+![Knowledge Base Table](screenshots/knowledge_base.png)
+
+### Knowledge Gaps Table
+Unresolved or flagged tickets tracked in real time, with theme classification, question summary, flagged timestamp, and resolution status -- feeding directly into the approval and KB update workflow.
+
+![Knowledge Gaps Table](screenshots/knowledge_gaps.png)
 
 ---
 
