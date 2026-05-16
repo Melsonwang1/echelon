@@ -1,0 +1,413 @@
+{
+  "name": "monthly marketing cluster",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        96
+      ],
+      "id": "ce1a2457-2c00-4981-9984-e96a77eda3ec",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_base?approved=eq.true&select=question,answer,theme,source_ticket_id",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "created_at",
+              "value": "=gte.{{ $now.minus({months: 1}).startOf('month').toISO() }}"
+            },
+            {
+              "name": "created_at",
+              "value": "=lt.{{ $now.startOf('month').toISO() }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "add044c8-e9b1-4571-b6ec-f19757c6751d",
+      "name": "GET: Knowledge base inside supabase"
+    },
+    {
+      "parameters": {
+        "jsCode": "const kb_rows = $input.first().json.kb_rows;\nconst ticket_rows = $input.first().json.ticket_rows;\n\n// Build a lookup map from ticket_id → buyer_persona\nconst ticketPersonaMap = {};\nfor (const ticket of ticket_rows) {\n  ticketPersonaMap[ticket.ticket_id] = ticket.buyer_persona;\n}\n\n// Fallback persona map by theme\nconst personaMap = {\n  materials: 'health_conscious',\n  sustainability: 'sustainability_advocate',\n  sizing: 'enthusiast_active_outdoor',\n  gifting: 'gifter'\n};\n\nconst grouped = {};\n\nfor (const item of kb_rows) {\n  const theme = item.theme;\n  // Use ticket persona if available, fallback to theme map\n  const persona = ticketPersonaMap[item.source_ticket_id] \n    || personaMap[theme] \n    || 'unknown';\n\n  if (!grouped[theme]) {\n    grouped[theme] = {\n      theme,\n      persona,\n      ticket_count: 0,\n      questions: []\n    };\n  }\n\n  grouped[theme].ticket_count++;\n  grouped[theme].questions.push(item.question);\n}\n\nreturn Object.values(grouped).map(group => ({ json: group }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        96
+      ],
+      "id": "56276b7b-46e9-4f31-b54f-62331eff83cf",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "created_at",
+              "value": "=gte.{{ $now.minus({months: 1}).startOf('month').toISO() }}"
+            },
+            {
+              "name": "created_at",
+              "value": "=lt.{{ $now.startOf('month').toISO() }}"
+            },
+            {
+              "name": "select",
+              "value": "ticket_id,subject,buyer_persona,created_at"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        192
+      ],
+      "id": "43908897-f323-4895-bc03-0c36b114d2a9",
+      "name": "GET: tickets persona inside supabase1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "kb_rows",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "6020c8be-144d-4114-8f3d-195f46aac8e4",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "ticket_rows",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        448,
+        192
+      ],
+      "id": "4d0852b5-34be-44b9-8523-6185b8403a06",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        672,
+        96
+      ],
+      "id": "380f6260-574a-44fa-90ad-ef3d2860bdea",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "={{ $json.telegram_message }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2064,
+        160
+      ],
+      "id": "2959d8c7-c29a-497a-911d-377d9f2bea91",
+      "name": "Send a text message",
+      "webhookId": "bfac719e-37c9-4ec7-8205-13202af2b4aa",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "weekly_themes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        96
+      ],
+      "id": "e4f34ad0-1b4f-4b18-8754-c6954ab3981b",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const monthly_themes = $input.first().json.monthly_themes;\nconst system_prompt = \"You are a customer intelligence analyst for Boldr, a Singapore premium watch brand. Your job is to analyse customer enquiry themes accumulated over the past month and produce a strategic marketing brief for the CS and marketing team.\";\nconst user_prompt = \"Here is this month's customer enquiry data grouped by theme: \" + \n  JSON.stringify(monthly_themes) + \n  \" For each theme provide: 1. Theme name and buyer persona 2. Total ticket volume this month 3. Summary of what customers are asking 4. Recurring signals or trends across the month 5. Marketing opportunity with specific recommended action. \" +\n  \"Also include at the top level: \" +\n  \"'overview': a 2-3 sentence executive summary of this month's customer intelligence. \" +\n  \"'recommended_actions': a list of 3-5 top priority actions Boldr should take this month based on all themes combined. \" +\n  \"Respond in JSON format only, no extra text. Use EXACTLY these field names, no variations: \" +\n  \"{ overview, recommended_actions, themes: [{ theme, persona, ticket_count, summary, recurring_signals, marketing_opportunity }] }\";\nreturn [{\n  json: {\n    system_prompt,\n    user_prompt,\n    monthly_themes\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        96
+      ],
+      "id": "888637fd-f98d-4e3f-8ebe-5bb3472e2807",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen-plus\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": {{JSON.stringify($json.system_prompt)}}\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{JSON.stringify($json.user_prompt)}}\n    }\n  ],\n  \"temperature\": 0.2,\n  \"response_format\": {\n    \"type\": \"json_object\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        96
+      ],
+      "id": "21247529-f32c-4823-af2d-e3724d469cfe",
+      "name": "calling of ai to direct using qwen"
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst contentString = response.choices[0].message.content;\nconst parsed = JSON.parse(contentString);\nconst data = parsed.weekly_intelligence_brief \n  || parsed.monthly_intelligence_brief \n  || parsed;\n\nconst messages = [];\n\n// Message 1: Header + Overview\nlet msg1 = \"\";\nmsg1 += `MONTHLY CUSTOMER INTELLIGENCE BRIEF\\n`;\nmsg1 += `━━━━━━━━━━━━━━━━━━━━\\n\\n`;\nmsg1 += `Overview\\n${data.overview}\\n\\n`;\nmsg1 += `${data.themes.length} themes identified this month\\n`;\nmessages.push({ json: { telegram_message: msg1 } });\n\n// Messages 2+: One per theme\ndata.themes.forEach((theme, i) => {\n  let msg = \"\";\n  msg += `THEME ${i + 1}: ${theme.theme.toUpperCase()} (${theme.ticket_count} tickets)\\n`;\n  msg += `Persona: ${theme.persona}\\n\\n`;\n  msg += `Summary\\n${theme.summary}\\n\\n`;\n  msg += `Recurring Signals\\n`;\n  theme.recurring_signals.forEach(signal => {\n    msg += `• ${signal}\\n`;\n  });\n  msg += `\\nMarketing Opportunity\\n${theme.marketing_opportunity}\\n`;\n  messages.push({ json: { telegram_message: msg } });\n});\n\n// Last message: Recommended actions\nlet msgLast = \"\";\nmsgLast += `RECOMMENDED ACTIONS\\n\\n`;\ndata.recommended_actions.forEach((action, i) => {\n  msgLast += `${i + 1}. ${action}\\n\\n`;\n});\nmessages.push({ json: { telegram_message: msgLast } });\n\nreturn messages;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1776,
+        96
+      ],
+      "id": "49663443-1b93-4bf1-ac42-8870e61ea436",
+      "name": "Code in JavaScript2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GET: Knowledge base inside supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: tickets persona inside supabase1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Knowledge base inside supabase": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: tickets persona inside supabase1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5c3b71f9-f4ff-4f60-b1d1-dfc06cc0a529",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e15a76d984d1d533ae2eea02153c3167b29a7fcb76903065faed6e65c50e681"
+  },
+  "id": "Ot0SU6rlcHZEwCXZ",
+  "tags": []
+}
