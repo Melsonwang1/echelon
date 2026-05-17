@@ -46,16 +46,21 @@ Echelon transforms reactive support into a **self-improving engine**:
 4. If not answerable, flags gap and routes to CS staff, then auto-drafts new KB entry
 5. Weekly: clusters novel questions by theme
 6. Monthly: outputs a marketing brief, *"What customers are asking that isn't on your product pages"*
+7. Monthly: sentiment analysis across all five buyer personas using live Reddit and search data — tracking whether market mood on each theme is improving, worsening, or emerging
 
 ### Buyer Intelligence
 
-Echelon automatically tags every enquiry against five buyer personas:
+Echelon automatically tags every enquiry against five buyer personas and tracks real-world sentiment for each using live external data:
 
-- 🟢 **Health-Conscious Buyer** -- BPA-free, nickel-free, hypoallergenic queries
-- 🟡 **Gifter** -- engraving, gift wrap, seasonal campaigns
-- 🔵 **Enthusiast / Collector** -- Grade 5 titanium, limited editions, craftsmanship
-- 🟠 **Active / Outdoor Buyer** -- water resistance, shock, trail running
-- 🟣 **Sustainability Advocate** -- vegan straps, eco packaging, carbon offset
+| Persona | Example Themes | Sentiment Source |
+|---------|---------------|-----------------|
+| 🟢 **Health-Conscious Buyer** | BPA-free, nickel-free, hypoallergenic | Reddit + SerpAPI |
+| 🟡 **Gifter** | Engraving, gift wrap, seasonal campaigns | SerpAPI related questions |
+| 🔵 **Enthusiast / Collector** | Grade 5 titanium, limited editions, craftsmanship | Reddit r/Watches |
+| 🟠 **Active / Outdoor Buyer** | Water resistance, shock, sizing, trail running | Reddit r/Watchstraps |
+| 🟣 **Sustainability Advocate** | Vegan straps, eco packaging, carbon offset | Reddit r/EthicalFashion, r/vegan |
+
+Sentiment is scored as **positive**, **negative**, or **neutral** — based on the buyer's emotional state, not just post tone. Fear, anxiety, or unmet needs score negative. Confidence and satisfaction score positive. This gives Boldr a real-time read on where buyer trust is strong and where it is eroding.
 
 ### Why It Scales
 
@@ -78,6 +83,7 @@ for a small-scale deployment (roughly 50 customer enquiries per day), scaling up
 | Supabase | Free | Free tier is sufficient for this workload |
 | Telegram | Free | Bot API is free |
 | Gmail | Free | Gmail API is free |
+| SerpAPI | Free | Free tier (100 searches/month) sufficient for monthly gap analysis |
 | **Total (low usage)** | **~SGD $25 - $26/month** | At 50 messages/day |
 | **Total (high usage)** | **~SGD $100 - $200/month** | As AI call volume scales up |
 
@@ -102,6 +108,7 @@ upgrades ($25 USD/month) if the free tier limits are exceeded.
 - **Supabase free tier** covers up to 500MB database and 50,000 monthly active users, more than enough for a 3-person CS team
 - **Qwen Plus** is significantly cheaper than GPT-4o or Claude at comparable performance
 - **Telegram and Gmail APIs** are both completely free
+- **SerpAPI free tier** provides 100 searches/month, sufficient for monthly gap analysis across all themes
 - The only fixed cost is the **n8n dedicated server** at SGD $24/month, which gives full control, no workflow limits, and no per-execution fees
 
 ---
@@ -142,6 +149,7 @@ This ensures the knowledge base only grows with verified, intentional informatio
 | Automation | n8n | Underlying workflow orchestration |
 | Customer Comms | Gmail | Email communication with customers and team |
 | Staff Approvals | Telegram | Quick approval workflows for internal staff |
+| Market Intelligence | SerpAPI + Reddit | Real-world sentiment and search data for gap analysis |
 
 ---
 
@@ -153,6 +161,7 @@ Echelon is built on n8n as its automation backbone, connecting:
 - **Qwen Plus** -- handles AI-powered processing within workflows
 - **Gmail** -- manages outbound communication to customers and the team
 - **Telegram** -- enables staff to approve or action requests on the go
+- **SerpAPI + Reddit** -- feeds real-world market data into the monthly sentiment and gap analysis
 
 ---
 
