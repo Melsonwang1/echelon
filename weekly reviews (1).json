@@ -1,0 +1,1539 @@
+{
+  "name": "weekly reviews",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        768
+      ],
+      "id": "f69b27e7-e07c-49e7-8141-820fb5a082bb",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst kg_rows = input.kg_rows || [];\nconst ticket_rows = input.ticket_rows || [];\nconst kb_rows = input.kb_rows || [];\n\n// Build lookup: ticket_id → buyer_persona from ticket_rows\nconst ticketPersonaMap = {};\nfor (const t of ticket_rows) {\n  ticketPersonaMap[t.ticket_id] = t.buyer_persona;\n}\n\n// Build lookup: existing KB questions (lowercased) to detect already-answered gaps\nconst knownQuestions = new Set(kb_rows.map(k => (k.question || '').toLowerCase().trim()));\n\n// Persona normaliser — ticket_rows uses snake_case, we need display names\nconst personaNormaliser = {\n  health_conscious:      'Health-Conscious Buyer',\n  gifter:                'Gifter',\n  enthusiast:            'Enthusiast/Collector',\n  enthusiast_collector:  'Enthusiast/Collector',\n  active_outdoor:        'Active/Outdoor Buyer',\n  sustainability_advocate: 'Sustainability Advocate',\n  niche_buyer:           'Enthusiast/Collector',\n  owner_aftercare:       'Enthusiast/Collector',\n  prospect:              'Enthusiast/Collector',\n  transactional:         'Gifter',\n  knowledge_gap:         null  // will be filtered\n};\n\n// Theme → persona fallback if ticket has no persona\nconst themePersonaMap = {\n  materials:         'Health-Conscious Buyer',\n  materials_safety:  'Health-Conscious Buyer',\n  sustainability:    'Sustainability Advocate',\n  sizing:            'Enthusiast/Collector',\n  strap_compatibility: 'Active/Outdoor Buyer',\n  gifting:           'Gifter',\n  product_general:   'Enthusiast/Collector',\n  order_status:      'Gifter',\n  knowledge_gap:     null\n};\n\n// Noise filter — skip rows with no real customer question\nconst isNoise = (q) => {\n  if (!q || q.trim() === '') return true;\n  const lower = q.toLowerCase();\n  const noiseSignals = [\n    'linkedin', 'n8n license', 'webull', 'github', 'e27', \n    'ai workflow competition', 'random characters', 'no question',\n    'no customer service', 'unrelated to boldr', 'misdirected',\n    'no boldr product', 'no intelligible'\n  ];\n  return noiseSignals.some(s => lower.includes(s));\n};\n\n// Filter and enrich kg_rows\nconst weekly_gaps = kg_rows\n  .filter(row => row.kb_approved === false && row.resolved_at === null)\n  .filter(row => !isNoise(row.question_summary))\n  .map(row => {\n    const rawPersona = ticketPersonaMap[row.ticket_id];\n    const normalisedPersona = personaNormaliser[rawPersona] \n      || themePersonaMap[row.theme] \n      || 'Enthusiast/Collector';\n\n    const alreadyInKB = knownQuestions.has((row.question_summary || '').toLowerCase().trim());\n\n    return {\n      ticket_id:    row.ticket_id,\n      question:     row.question_summary,\n      theme:        row.theme,\n      flagged_at:   row.flagged_at,\n      buyer_persona: normalisedPersona,\n      already_in_kb: alreadyInKB  // lets Claude know if KB already covers this\n    };\n  })\n  .filter(row => row.buyer_persona !== null); // drop unfixable noise\n\nreturn [{ json: { weekly_gaps, gap_count: weekly_gaps.length } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        1248
+      ],
+      "id": "cae7730f-1c37-46dc-a9d0-eaa128a55857",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1072,
+        1248
+      ],
+      "id": "59f0296a-e32e-4839-aca6-26da581865b7",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "={{ $json.weekly_summary }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2416,
+        1248
+      ],
+      "id": "87978c86-fb92-463a-af66-9caa72e58d97",
+      "name": "Send a text message",
+      "webhookId": "bfac719e-37c9-4ec7-8205-13202af2b4aa",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "weekly_themes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        1248
+      ],
+      "id": "2e34fa10-a420-4a1e-a460-0d1e65ab9ad7",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\n\n// Aggregate2 outputs weekly_themes — flatten questions back into gap rows\nconst weekly_themes = input.weekly_themes || [];\n\n// UPDATE: Target 'weekly_gaps' instead of 'questions', and map the correct properties\nconst weekly_gaps = weekly_themes.flatMap(t =>\n  (t.weekly_gaps || []).map(gap => ({\n    ticket_id: gap.ticket_id || null,\n    question_summary: gap.question, // Maps from 'question' in input\n    theme: gap.theme,\n    persona: gap.buyer_persona,     // Maps from 'buyer_persona' in input\n    kb_approved: false,\n    resolved_at: null\n  }))\n);\n\nconst system_prompt = `You are a customer intelligence analyst for Boldr, a Singapore premium titanium watch brand. \nYour job is to cluster novel or unanswered customer enquiries from the past week into themes, tag each theme \nwith the relevant buyer persona, and flag marketing signals. This output feeds both the CS team and the \nmonthly marketing brief — be precise and operational.\n\nThe five buyer personas are:\n- Health-Conscious Buyer: asks about BPA-free, nickel-free, hypoallergenic, EU REACH, safe for kids\n- Gifter: asks about engraving, gift wrap, turnaround time, birthday/anniversary\n- Enthusiast/Collector: asks about Grade 5 titanium, Miyota movement, limited editions, specs depth\n- Active/Outdoor Buyer: asks about water resistance, shock rating, trail running, FKM rubber strap\n- Sustainability Advocate: asks about vegan straps, carbon-neutral shipping, eco packaging, recyclability`;\n\nconst strict_schema = `{\n  \"themes\": [\n    {\n      \"theme_name\": \"string\",\n      \"ticket_count\": \"number\",\n      \"description\": \"string\",\n      \"buyer_persona\": \"string\",\n      \"marketing_signal\": \"boolean\",\n      \"marketing_note\": \"string\",\n      \"recommended_action\": \"string\"\n    }\n  ],\n  \"knowledge_gap_count\": \"number\",\n  \"top_persona_this_week\": \"string\",\n  \"weekly_summary\": \"string\"\n}`;\n\nconst user_prompt = `Here are this week's novel or unanswered customer enquiries:\n${JSON.stringify(weekly_gaps)}\n\nCluster these enquiries into themes and produce a weekly intelligence brief.\n\nRespond ONLY in JSON. Do not add any fields beyond what is specified. No markdown, backticks, or explanatory text.\nThe response must strictly match this exact schema: ${strict_schema}\n\nField rules:\n- themes[].theme_name: short label for the cluster, e.g. \"Vegan Strap Availability\" (string)\n- themes[].ticket_count: number of tickets in that cluster (number, not string)\n- themes[].description: one sentence on what customers are asking in this cluster (string)\n- themes[].buyer_persona: one of exactly: \"Health-Conscious Buyer\", \"Gifter\", \"Enthusiast/Collector\", \"Active/Outdoor Buyer\", \"Sustainability Advocate\" (string)\n- themes[].marketing_signal: true if this theme represents a gap on Boldr product pages or an unaddressed audience; false if it is purely operational (boolean)\n- themes[].marketing_note: if marketing_signal is true, one sentence on the opportunity (e.g. \"3 tickets asking about vegan straps — no competitor in this space is addressing this angle\"); if false, use \"\" (string)\n- themes[].recommended_action: one of \"Update FAQ\", \"Update product page\", \"Flag to marketing\", \"Escalate to team lead\", \"Route to corporate@boldr.co\" (string)\n- knowledge_gap_count: total number of tickets across all themes that remain unanswered (number)\n- top_persona_this_week: the buyer persona with the most tickets this week (string)\n- weekly_summary: one plain sentence summarising the week, e.g. \"This week: 3 vegan strap questions (Sustainability Advocate) and 2 nickel allergy queries (Health-Conscious Buyer) — both flagged as marketing signals with no current product page coverage.\" (string)`;\n\nreturn [{\n  json: {\n    system_prompt,\n    user_prompt,\n    weekly_gaps\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        1248
+      ],
+      "id": "b10094f5-023c-4085-a33e-6b9962f61388",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen-plus\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": {{JSON.stringify($json.system_prompt)}}\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{JSON.stringify($json.user_prompt)}}\n    }\n  ],\n  \"temperature\": 0.2,\n  \"response_format\": {\n    \"type\": \"json_object\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1968,
+        1248
+      ],
+      "id": "fbde4354-d51b-442b-805b-996c3450d907",
+      "name": "calling of ai to direct using qwen"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\n\n// Extract the content string from the nested structure\nconst content = raw.choices[0].message.content;\n\n// Parse the stringified JSON inside content\nconst parsed = JSON.parse(content);\n\nreturn [{\n  json: {\n    themes: parsed.themes,\n    weekly_summary: parsed.weekly_summary,\n    // Pass through useful metadata\n    model: raw.model,\n    total_tokens: raw.usage.total_tokens,\n    created: raw.created\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2192,
+        1248
+      ],
+      "id": "d5a898f9-873a-4ca8-ba5e-f536da4afb7e",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_gaps",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "flagged_at",
+              "value": "=gte.{{ $now.startOf('week').toISO() }}"
+            },
+            {
+              "name": "flagged_at",
+              "value": "=lt.{{ $now.toISO() }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        1328
+      ],
+      "id": "5074e2c2-9684-4a53-b2ec-066aa4230670",
+      "name": "GET: Knowledge base inside supabase1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "kg_rows",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        848,
+        1328
+      ],
+      "id": "f3a0f805-8d03-46e3-bfb5-0129b9398001",
+      "name": "Aggregate3"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "created_at",
+              "value": "=gte.{{ $now.startOf('week').toISO() }}"
+            },
+            {
+              "name": "created_at",
+              "value": "=gte.{{ $now.startOf('week').toISO() }}"
+            },
+            {
+              "name": "select",
+              "value": "ticket_id,subject,buyer_persona,created_at"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        1136
+      ],
+      "id": "cd10a7e9-a9c4-4ea7-9edb-210d0c535444",
+      "name": "GET: tickets persona inside supabase1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "ticket_rows",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        848,
+        1136
+      ],
+      "id": "7aad5c0b-2dd7-4066-85e9-12e301b863d6",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "url": "https://arctic-shift.photon-reddit.com/api/posts/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "size"
+            },
+            {
+              "name": "subreddit",
+              "value": "Watchstraps"
+            },
+            {
+              "name": "limit",
+              "value": "25"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        224
+      ],
+      "id": "41f4d5b7-2278-4b2d-afe1-84cb7415f37f",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const posts = $input.first().json.data;\n\nconst filtered = posts\n  .filter(post => \n    post.selftext !== '[removed]' && \n    post.selftext !== '[deleted]' &&\n    post.title &&\n    post.num_comments > 0\n  )\n  .map(post => ({\n    id: post.id,\n    title: post.title,\n    body: post.selftext,\n    subreddit: post.subreddit,\n    upvotes: post.ups,\n    num_comments: post.num_comments,\n    created_utc: post.created_utc,\n    permalink: `https://reddit.com${post.permalink}`\n  }));\n\nreturn filtered.map(item => ({ json: item }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        32
+      ],
+      "id": "1b157ebe-12b9-4b76-ad89-ac7d8cdf8aff",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "url": "https://arctic-shift.photon-reddit.com/api/comments/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link_id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "name": "limit",
+              "value": "100"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1072,
+        32
+      ],
+      "id": "d6f39098-2f9f-4032-aa10-0a27e6060a74",
+      "name": "HTTP Request3",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const allData = [];\nconst items = $input.all();\n\nfor (let i = 0; i < items.length; i++) {\n  const item = items[i];\n  const comments = item.json.data;\n  if (!comments) continue;\n\n  // Get the post data from the previous node using $(\"Code in JavaScript3\").all()\n  const postItem = $(\"Code in JavaScript7\").all()[i];\n  const title = postItem?.json?.title || '';\n  const body = postItem?.json?.body || '';\n\n  const cleanComments = comments\n    .filter(c => c.body && c.body !== '[removed]' && c.body !== '[deleted]')\n    .map(c => c.body)\n    .join('\\n---\\n');\n\n  allData.push({\n    json: {\n      post_id: items[i].json.data[0]?.link_id?.replace('t3_', ''),\n      full_text: `POST TITLE: ${title}\\n\\nPOST BODY: ${body}\\n\\nCOMMENTS:\\n${cleanComments}`\n    }\n  });\n}\n\nreturn allData;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        32
+      ],
+      "id": "7f6a7e2a-1413-4235-a79a-55f326b161a1",
+      "name": "Code in JavaScript8"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen-plus\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": {{JSON.stringify($json.system_prompt)}}\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{JSON.stringify($json.user_prompt)}}\n    }\n  ],\n  \"temperature\": 0.2,\n  \"response_format\": {\n    \"type\": \"json_object\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1968,
+        224
+      ],
+      "id": "890ad232-875f-40ca-8dc3-4386b2c2fe73",
+      "name": "calling of ai to direct using qwen2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all().map(i => i.json);\n\n// ── Split: Reddit posts have post_id, KB rows have question/answer, tickets have ticket_id\nconst redditPosts = allItems.filter(i => i.post_id);\nconst kbRows      = allItems.filter(i => i.question && i.answer);\nconst rawTickets  = allItems.filter(i => i.ticket_id);\n\n// ── Define the theme\nconst supabaseTheme = 'sizing';\n\n// ── Filter KB to sizing theme only\nconst filteredKb = kbRows.filter(r => r.theme === supabaseTheme);\n\n// ── Ticket count: Count all raw tickets fed into the node\nconst ticketCount = rawTickets.length;\n\n// ── Format the Knowledge Base\nconst kbFormatted = filteredKb\n  .map(r => {\n    const ticketTag = r.source_ticket_id ? `[from ticket #${r.source_ticket_id}]` : '[from FAQ]';\n    return `${ticketTag}\\nQ: ${r.question}\\nA: ${r.answer}`;\n  })\n  .join('\\n\\n') || 'No KB entries found for sizing.';\n\n// ── Format the Tickets for the AI to categorize\nconst ticketsFormatted = rawTickets\n  .map(t => `- [${t.ticket_id}] ${t.subject}`)\n  .join('\\n') || 'No internal tickets available to review.';\n\n// ── Combine all Reddit posts into one block\nconst redditBlock = redditPosts\n  .map((p, i) => `[Post ${i + 1}]\\n${p.full_text}`)\n  .join('\\n\\n---\\n\\n');\n\nconst totalRedditPosts = redditPosts.length;\n\nreturn [{\n  json: {\n    theme:                 supabaseTheme,\n    kb_entry_count:        filteredKb.length,\n    internal_ticket_count: ticketCount,\n\n    system_prompt: `You are an expert Customer Experience (CX) and Product Marketing Analyst for Boldr, a Singapore-based titanium watch micro-brand. \nYour objective is to perform a gap analysis between Boldr's internal Knowledge Base (what the brand says), internal customer tickets (what active buyers ask), and external market data (what the broader market cares about).\nYou are a strict data-parser. You must output ONLY valid, parsable JSON. No markdown formatting, no backticks, no conversational filler.`,\n\n    user_prompt: `Perform a CX Gap Analysis for the theme: \"${supabaseTheme}\".\n\n=== 1. INTERNAL KNOWLEDGE BASE (What Boldr currently says) ===\nTotal Entries: ${filteredKb.length}\n${kbFormatted}\n\n=== 2. INTERNAL TICKETS (What Boldr's buyers are asking) ===\nTask: Count the tickets. \nRule: ONLY count tickets that explicitly relate to the \"${supabaseTheme}\" theme (e.g., strap length, lug width, case size, wrist fit, or watch proportions. DO NOT count generic 'where is my order' tickets).\n${ticketsFormatted}\n\n=== 3. EXTERNAL MARKET DATA (What the broader market discusses) ===\nSource: r/Watchstraps\nVolume: ${totalRedditPosts} posts analysed.\nData:\n${redditBlock || 'N/A'}\n\n=== OUTPUT REQUIREMENTS ===\nGenerate a JSON object strictly following these constraints. Do not exceed word limits.\n\n{\n  \"theme\": \"${supabaseTheme}\",\n  \"persona\": \"Select strictly ONE: health_conscious, gifter, enthusiast, active_outdoor, or sustainability_advocate. Choose based on the primary intent of the external data.\",\n  \"sentiment\": \"Select strictly ONE: positive, negative, or neutral. Base this on the buyer's EMOTIONAL STATE, not the tone of the posts. If buyers express fear, anxiety, or uncertainty about fit, select negative. If they express confidence or satisfaction about finding the right fit, select positive.\",\n  \"internal_ticket_count\": <INSERT YOUR EXACT INTEGER COUNT OF RELEVANT TICKETS HERE>,\n  \"key_gap\": \"Maximum 20 words. State the exact piece of information the market wants about sizing that the Boldr KB is missing or burying.\",\n  \"key_insight\": \"Maximum 20 words. What is the underlying emotional or practical reason buyers care about this sizing issue?\",\n  \"marketing_signal\": \"Maximum 20 words. How can Boldr use this insight to build brand trust or drive sales among fit-conscious buyers?\",\n  \"verdict\": \"Select strictly ONE: boldr_specific (internal tickets high, Reddit volume low), market_wide (both internal and external volume high), or emerging_niche (low internal tickets but growing Reddit discussion). Base this strictly on your ticket count vs Reddit post volume.\",\n  \"boldr_vs_market\": \"Maximum 25 words. State whether Boldr is ahead, behind, or aligned with market attention on this theme. Cite your internal ticket count and Reddit volume explicitly.\",\n  \"coverage_gap_score\": \"Rate 1–5 (1 = Boldr fully covers market concern, 5 = major gap). Base on KB entry count vs Reddit volume and buyer intent.\",\n  \"recommended_action\": \"Maximum 20 words. Provide one highly specific operational action (e.g., 'Draft a new KB article about strap lengths', 'Add lug-to-lug measurements on product page').\",\n  \"external_source\": \"r/Watchstraps\"\n}\n\nSTART YOUR RESPONSE DIRECTLY WITH {`\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        224
+      ],
+      "id": "7fc5ca78-4c00-4547-be4b-5d5eb5dfdce5",
+      "name": "Code in JavaScript9"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  const raw = item.json.choices[0].message.content;\n\n  try {\n    const cleaned = raw.replace(/```json/g, '').replace(/```/g, '').trim();\n    const parsed  = JSON.parse(cleaned);\n\n    results.push({\n      json: {\n        post_id:               item.json.post_id,\n        theme:                 parsed.theme,\n        persona:               parsed.persona,\n        sentiment:             parsed.sentiment,\n        internal_ticket_count: parsed.internal_ticket_count ?? 0,\n        key_gap:               parsed.key_gap,\n        key_insight:           parsed.key_insight,\n        marketing_signal:      parsed.marketing_signal,\n        verdict:               parsed.verdict,\n        boldr_vs_market:       parsed.boldr_vs_market,\n        coverage_gap_score:    parsed.coverage_gap_score,\n        recommended_action:    parsed.recommended_action,\n        external_source:       parsed.external_source,\n        tokens_used:           item.json.usage?.total_tokens,\n      }\n    });\n  } catch (e) {\n    results.push({\n      json: {\n        post_id: item.json.post_id,\n        error:   'Failed to parse',\n        raw:     raw\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2192,
+        224
+      ],
+      "id": "b86f9865-7e0f-43ec-a0ca-69bb41635aa6",
+      "name": "Code in JavaScript10"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "q",
+              "value": "nickel free watch strap review site:watchuseek.com"
+            },
+            {
+              "name": "num",
+              "value": "10"
+            },
+            {
+              "name": "api_key",
+              "value": "641429246f246f23efb3482cd6bf45fa5e226364c8f15b948db6731a51a0a92f"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        -368
+      ],
+      "id": "8354afe1-394d-41ca-8b08-5663f027318b",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  const data = item.json;\n\n  // ── Organic results: extract title + snippet only ──\n  const organicSnippets = (data.organic_results || [])\n    .map(r => `[${r.source}] ${r.snippet}`)\n    .filter(Boolean)\n    .join('\\n');\n\n  // ── Related questions: extract question + short answer only ──\n  const relatedQuestions = (data.related_questions || [])\n    .map(q => `Q: ${q.question}${q.snippet ? '\\nA: ' + q.snippet : ''}`)\n    .filter(Boolean)\n    .join('\\n\\n');\n\n  // ── Forum discussions: extract title + source + date only ──\n  const forumDiscussions = (data.discussions_and_forums || [])\n    .map(d => `[${d.source}] ${d.title} (${d.date || 'n/d'})`)\n    .filter(Boolean)\n    .join('\\n');\n\n  // ── Related searches: queries only ──\n  const relatedSearches = (data.related_searches || [])\n    .map(s => s.query)\n    .filter(Boolean)\n    .join(', ');\n\n  // ── Search meta ──\n  const query      = data.search_parameters?.q || 'unknown';\n  const totalResults = data.search_information?.total_results || 0;\n\n  // ── Derive theme from query (strip filler words) ──\n  const theme = query\n    .replace(/\\b(free|review|best|watch|strap|for|the|a|an|and|in|of)\\b/gi, '')\n    .trim()\n    .replace(/\\s+/g, '_')\n    .toLowerCase() || 'unknown';\n\n  results.push({\n    json: {\n      theme,\n      search_query:      query,\n      total_results:     totalResults,\n      source:            'Google Search via SerpAPI',\n      organic_snippets:  organicSnippets,\n      related_questions: relatedQuestions,\n      forum_discussions: forumDiscussions,\n      related_searches:  relatedSearches\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        -544
+      ],
+      "id": "75d69468-6caa-454c-a689-fa1a594bb73c",
+      "name": "Code in JavaScript11"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all().map(i => i.json);\n\n// ── Split the incoming data\nconst searchData = allItems.find(i => i.search_query);\nconst kbRows     = allItems.filter(i => i.question && i.answer);\nconst rawTickets = allItems.filter(i => i.ticket_id);\n\nconst THEME_MAP = {\n  nickel:         'materials',\n  bpa:            'materials',\n  hypoallergenic: 'materials',\n  titanium:       'materials',\n  materials:      'materials',\n  gifting:        'gifting',\n  engraving:      'gifting',\n  sizing:         'sizing',\n  sustainability: 'sustainability',\n  vegan:          'sustainability',\n};\n\n// ── 1. Map the theme\nlet supabaseTheme = searchData ? searchData.theme : \"unknown\";\nif (searchData && searchData.theme) {\n  for (const key in THEME_MAP) {\n    if (searchData.theme.toLowerCase().includes(key)) {\n      supabaseTheme = THEME_MAP[key];\n      break;\n    }\n  }\n}\n\nconst filteredKb = kbRows.filter(r => r.theme === supabaseTheme);\n\n// ── 2. Format the Knowledge Base\nconst kbFormatted = filteredKb\n  .map(r => {\n    const ticketTag = r.source_ticket_id ? `[from ticket #${r.source_ticket_id}]` : '[from FAQ]';\n    return `${ticketTag}\\nQ: ${r.question}\\nA: ${r.answer}`;\n  })\n  .join('\\n\\n') || 'No KB entries found for this theme.';\n\n// ── 3. Format the Tickets for the AI to categorize\nconst ticketsFormatted = rawTickets\n  .map(t => `- [${t.ticket_id}] ${t.subject}`)\n  .join('\\n') || 'No internal tickets available to review.';\n\nreturn [{\n  json: {\n    theme:          supabaseTheme,\n    kb_entry_count: filteredKb.length,\n\n    system_prompt: `You are an expert Customer Experience (CX) and Product Marketing Analyst for Boldr, a Singapore-based titanium watch micro-brand.\nYour objective is to perform a gap analysis between Boldr's internal Knowledge Base (what the brand says), internal customer tickets (what active buyers ask), and external market data (what the broader market cares about).\nYou are a strict data-parser. You must output ONLY valid, parsable JSON. No markdown formatting, no backticks, no conversational filler.`,\n\n    user_prompt: `Perform a CX Gap Analysis for the theme: \"${supabaseTheme}\".\n\n=== 1. INTERNAL KNOWLEDGE BASE (What Boldr currently says) ===\nTotal Entries: ${filteredKb.length}\n${kbFormatted}\n\n=== 2. INTERNAL TICKETS (What Boldr's buyers are asking) ===\nTask: Count the tickets.\nRule: ONLY count tickets that explicitly relate to the \"${supabaseTheme}\" theme (e.g., titanium grade, nickel content, BPA-free straps, hypoallergenic properties, or material safety. DO NOT count generic 'where is my order' tickets).\n${ticketsFormatted}\n\n=== 3. EXTERNAL MARKET DATA (What the broader market discusses) ===\nSource: Google Search via SerpAPI\nSearch Volume: ${searchData ? searchData.total_results : 0} results\nWhat the market is saying:\n${searchData ? searchData.organic_snippets : 'N/A'}\n\nForum discussions:\n${searchData ? searchData.forum_discussions : 'N/A'}\n\nBuyers are also asking:\n${searchData ? searchData.related_questions : 'N/A'}\n\n=== OUTPUT REQUIREMENTS ===\nGenerate a JSON object strictly following these constraints. Do not exceed word limits.\n\n{\n  \"theme\": \"${supabaseTheme}\",\n  \"persona\": \"Select strictly ONE: health_conscious, gifter, enthusiast, active_outdoor, or sustainability_advocate. Choose based on the primary intent of the external data.\",\n  \"sentiment\": \"Select strictly ONE: positive, negative, or neutral. Base this on the buyer's EMOTIONAL STATE, not the tone of the posts. If buyers express fear, anxiety, or concern about skin reactions or material safety, select negative. If they express relief or confidence about hypoallergenic properties, select positive.\",\n  \"internal_ticket_count\": <INSERT YOUR EXACT INTEGER COUNT OF RELEVANT TICKETS HERE>,\n  \"key_gap\": \"Maximum 20 words. State the exact piece of information the market wants about materials that the Boldr KB is missing or burying.\",\n  \"key_insight\": \"Maximum 20 words. What is the underlying emotional or health-driven reason buyers care about this materials issue?\",\n  \"marketing_signal\": \"Maximum 20 words. How can Boldr use this insight to build brand trust or drive sales among health-conscious buyers?\",\n  \"verdict\": \"Select strictly ONE: boldr_specific (internal tickets high, search volume low), market_wide (both internal tickets and search volume high), or emerging_niche (low internal tickets but growing search volume). Base this strictly on your ticket count vs external search volume.\",\n  \"boldr_vs_market\": \"Maximum 25 words. State whether Boldr is ahead, behind, or aligned with market attention on this theme. Cite your internal ticket count and search volume (${searchData ? searchData.total_results : 0} results) explicitly.\",\n  \"coverage_gap_score\": \"Rate 1–5 (1 = Boldr fully covers market concern, 5 = major gap). Base on KB entry count vs search volume and buyer intent.\",\n  \"recommended_action\": \"Maximum 20 words. Provide one highly specific operational action (e.g., 'Add titanium grade and nickel-free certification to all product pages', 'Draft a KB article on hypoallergenic strap materials').\",\n  \"external_source\": \"Google Search via SerpAPI\"\n}\n\nSTART YOUR RESPONSE DIRECTLY WITH {`\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1504,
+        -352
+      ],
+      "id": "38144096-ae55-42cc-959e-1f37eaa35ebe",
+      "name": "Code in JavaScript12"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_base",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        848,
+        -352
+      ],
+      "id": "31bc3bf0-ef1c-419e-8d4d-5982b01bdd9b",
+      "name": "GET: Knowledge base inside supabase"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1072,
+        -368
+      ],
+      "id": "b070dc81-bc7f-4173-8b0b-1c2d53695188",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen-plus\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": {{JSON.stringify($json.system_prompt)}}\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{JSON.stringify($json.user_prompt)}}\n    }\n  ],\n  \"temperature\": 0.2,\n  \"response_format\": {\n    \"type\": \"json_object\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1728,
+        -352
+      ],
+      "id": "280454d0-7377-4a59-bd98-fa77827b3bf8",
+      "name": "calling of ai to direct using qwen3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code node AFTER the Qwen HTTP Request\nconst results = [];\n\nfor (const item of $input.all()) {\n  const raw     = item.json;\n  const content = raw?.choices?.[0]?.message?.content;\n\n  if (!content) {\n    results.push({ json: { error: 'No content returned from Qwen', raw } });\n    continue;\n  }\n\n  let parsed;\n  try {\n    parsed = JSON.parse(content);\n  } catch (e) {\n    results.push({ json: { error: 'Failed to parse Qwen content as JSON', content } });\n    continue;\n  }\n\n  results.push({\n    json: {\n      theme:                 parsed.theme,\n      persona:               parsed.persona,\n      sentiment:             parsed.sentiment,\n      internal_ticket_count: parsed.internal_ticket_count ?? 0,\n      key_gap:               parsed.key_gap,\n      key_insight:           parsed.key_insight,\n      marketing_signal:      parsed.marketing_signal,\n      verdict:               parsed.verdict,\n      boldr_vs_market:       parsed.boldr_vs_market,\n      coverage_gap_score:    parsed.coverage_gap_score,\n      recommended_action:    parsed.recommended_action,\n      external_source:       parsed.external_source,\n      tokens_used:           raw?.usage?.total_tokens,\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1952,
+        -352
+      ],
+      "id": "ce189190-27b5-4873-b98d-8c489e259875",
+      "name": "Code in JavaScript13"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_base",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1296,
+        224
+      ],
+      "id": "a7707ce0-8568-48b6-80b7-7474cc7f9e89",
+      "name": "GET: Knowledge base inside supabase2",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1520,
+        208
+      ],
+      "id": "c8809bd5-f7f2-4914-bebb-bcb2a56d3f32",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "q",
+              "value": "vegan watch strap OR sustainable watch reddit.com/r/EthicalFashion"
+            },
+            {
+              "name": "num",
+              "value": "10"
+            },
+            {
+              "name": "api_key",
+              "value": "641429246f246f23efb3482cd6bf45fa5e226364c8f15b948db6731a51a0a92f"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        768
+      ],
+      "id": "3a51a361-6622-4ec4-b471-d0e971da50c6",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  const data = item.json;\n\n  // ── Organic results: extract title + snippet only ──\n  const organicSnippets = (data.organic_results || [])\n    .map(r => `[${r.source}] ${r.snippet}`)\n    .filter(Boolean)\n    .join('\\n');\n\n  // ── Related questions: extract question + short answer only ──\n  const relatedQuestions = (data.related_questions || [])\n    .map(q => `Q: ${q.question}${q.snippet ? '\\nA: ' + q.snippet : ''}`)\n    .filter(Boolean)\n    .join('\\n\\n');\n\n  // ── Forum discussions: extract title + source + date only ──\n  const forumDiscussions = (data.discussions_and_forums || [])\n    .map(d => `[${d.source}] ${d.title} (${d.date || 'n/d'})`)\n    .filter(Boolean)\n    .join('\\n');\n\n  // ── Related searches: queries only ──\n  const relatedSearches = (data.related_searches || [])\n    .map(s => s.query)\n    .filter(Boolean)\n    .join(', ');\n\n  // ── Search meta ──\n  const query      = data.search_parameters?.q || 'unknown';\n  const totalResults = data.search_information?.total_results || 0;\n\n  // ── Derive theme from query (strip filler words) ──\n  const theme = query\n    .replace(/\\b(free|review|best|watch|strap|for|the|a|an|and|in|of)\\b/gi, '')\n    .trim()\n    .replace(/\\s+/g, '_')\n    .toLowerCase() || 'unknown';\n\n  results.push({\n    json: {\n      theme,\n      search_query:      query,\n      total_results:     totalResults,\n      source:            'Google Search via SerpAPI',\n      organic_snippets:  organicSnippets,\n      related_questions: relatedQuestions,\n      forum_discussions: forumDiscussions,\n      related_searches:  relatedSearches\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        560
+      ],
+      "id": "9d979f1f-f970-45a6-a71e-ad992dae2242",
+      "name": "Code in JavaScript14"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/knowledge_base",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        848,
+        752
+      ],
+      "id": "262f2751-182b-42a0-ae31-c50ab5945341",
+      "name": "GET: Knowledge base inside supabase3"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1072,
+        736
+      ],
+      "id": "71411310-e76b-48d9-99b3-90285bd3eb13",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "select",
+              "value": "ticket_id,subject,buyer_persona,created_at"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        848,
+        944
+      ],
+      "id": "c8b76fc0-2881-4661-8ba5-da2c345bb051",
+      "name": "GET: tickets persona inside supabase"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "select",
+              "value": "ticket_id,subject,buyer_persona,created_at"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        848,
+        -160
+      ],
+      "id": "accbf46d-b881-4463-a8f3-c0f592c11df9",
+      "name": "GET: tickets persona inside supabase2"
+    },
+    {
+      "parameters": {
+        "url": "https://zkexbnbfvnsnewacnjdt.supabase.co/rest/v1/tickets",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "select",
+              "value": "ticket_id,subject,buyer_persona,created_at"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InprZXhibmJmdm5zbmV3YWNuamR0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODgxODcwNCwiZXhwIjoyMDk0Mzk0NzA0fQ.a-CFpFsaAZ1BvnLfWSCmhebZZjxOu-e3oz170PnFy44"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1296,
+        416
+      ],
+      "id": "92c2eefe-8de9-48f3-9297-a1014c47a335",
+      "name": "GET: tickets persona inside supabase3",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Handle how the data comes in (sometimes n8n passes it as one big array in the first item, sometimes as individual items)\nlet rawData = [];\nif (Array.isArray($input.all()[0].json)) {\n  rawData = $input.all()[0].json;\n} else {\n  rawData = $input.all().map(item => item.json);\n}\n\nconst cleanedItems = [];\n\n// 2. Loop through every single object in the messy array\nfor (const item of rawData) {\n  \n  let itemType = \"unknown\";\n  let cleanedItem = { ...item };\n\n  // 3. Identify the data type based on its unique keys\n  if (item.ticket_id) {\n    itemType = \"ticket\";\n    // Optional: Clean up ticket dates so they are easier to read downstream\n    if (cleanedItem.created_at) {\n        cleanedItem.created_at_clean = new Date(cleanedItem.created_at).toISOString().split('T')[0];\n    }\n  } \n  else if (item.question && item.answer) {\n    itemType = \"knowledge_base\";\n  } \n  else if (item.search_query) {\n    itemType = \"search_result\";\n  }\n\n  // 4. Wrap the item in n8n's standard \"json\" format and add our new \"data_type\" tag\n  cleanedItems.push({\n    json: {\n      data_type: itemType, // This adds a tag like \"ticket\" or \"knowledge_base\" to the data\n      ...cleanedItem\n    }\n  });\n}\n\n// 5. Output the structured and tagged data\nreturn cleanedItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        -368
+      ],
+      "id": "46a0be75-9bba-4556-b34b-8d35992ecfbc",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all().map(i => i.json);\n\n// ── Split: Reddit posts have post_id, KB rows have question/answer, tickets have ticket_id\nconst redditPosts = allItems.filter(i => i.post_id);\nconst kbRows      = allItems.filter(i => i.question && i.answer);\nconst rawTickets  = allItems.filter(i => i.ticket_id);\n\n// ── Define the theme\nconst supabaseTheme = 'sizing';\n\n// ── Filter KB to sizing theme only\nconst filteredKb = kbRows.filter(r => r.theme === supabaseTheme);\n\n// ── Ticket count: Count all raw tickets fed into the node\nconst ticketCount = rawTickets.length;\n\n// ── Format the Knowledge Base\nconst kbFormatted = filteredKb\n  .map(r => {\n    const ticketTag = r.source_ticket_id ? `[from ticket #${r.source_ticket_id}]` : '[from FAQ]';\n    return `${ticketTag}\\nQ: ${r.question}\\nA: ${r.answer}`;\n  })\n  .join('\\n\\n') || 'No KB entries found for sizing.';\n\n// ── Format the Tickets for the AI to categorize\nconst ticketsFormatted = rawTickets\n  .map(t => `- [${t.ticket_id}] ${t.subject}`)\n  .join('\\n') || 'No internal tickets available to review.';\n\n// ── Combine all Reddit posts into one block\nconst redditBlock = redditPosts\n  .map((p, i) => `[Post ${i + 1}]\\n${p.full_text}`)\n  .join('\\n\\n---\\n\\n');\n\nconst totalRedditPosts = redditPosts.length;\n\nreturn [{\n  json: {\n    theme:                 supabaseTheme,\n    kb_entry_count:        filteredKb.length,\n    internal_ticket_count: ticketCount,\n\n    system_prompt: `You are an expert Customer Experience (CX) and Product Marketing Analyst for Boldr, a Singapore-based titanium watch micro-brand. \nYour objective is to perform a gap analysis between Boldr's internal Knowledge Base (what the brand says), internal customer tickets (what active buyers ask), and external market data (what the broader market cares about).\nYou are a strict data-parser. You must output ONLY valid, parsable JSON. No markdown formatting, no backticks, no conversational filler.`,\n\n    user_prompt: `Perform a CX Gap Analysis for the theme: \"${supabaseTheme}\".\n\n=== 1. INTERNAL KNOWLEDGE BASE (What Boldr currently says) ===\nTotal Entries: ${filteredKb.length}\n${kbFormatted}\n\n=== 2. INTERNAL TICKETS (What Boldr's buyers are asking) ===\nTask: Count the tickets. \nRule: ONLY count tickets that explicitly relate to the \"${supabaseTheme}\" theme (e.g., strap length, lug width, case size, wrist fit, or watch proportions. DO NOT count generic 'where is my order' tickets).\n${ticketsFormatted}\n\n=== 3. EXTERNAL MARKET DATA (What the broader market discusses) ===\nSource: r/Watchstraps\nVolume: ${totalRedditPosts} posts analysed.\nData:\n${redditBlock || 'N/A'}\n\n=== OUTPUT REQUIREMENTS ===\nGenerate a JSON object strictly following these constraints. Do not exceed word limits.\n\n{\n  \"theme\": \"${supabaseTheme}\",\n  \"persona\": \"Select strictly ONE: health_conscious, gifter, enthusiast, active_outdoor, or sustainability_advocate. Choose based on the primary intent of the external data.\",\n  \"sentiment\": \"Select strictly ONE: positive, negative, or neutral. Base this on the buyer's EMOTIONAL STATE, not the tone of the posts. If buyers express fear, anxiety, or uncertainty about fit, select negative.\",\n  \"internal_ticket_count\": <INSERT YOUR EXACT INTEGER COUNT OF RELEVANT TICKETS HERE>,\n  \"key_gap\": \"Maximum 20 words. State the exact piece of information the market wants about sizing that the Boldr KB is missing or burying.\",\n  \"key_insight\": \"Maximum 20 words. What is the underlying emotional or practical reason buyers care about this sizing issue?\",\n  \"marketing_signal\": \"Maximum 20 words. How can Boldr use this insight to build brand loyalty or drive sales?\",\n  \"verdict\": \"Select strictly ONE: boldr_specific (internal tickets high, Reddit volume low), market_wide (both internal and external volume high), or emerging_niche (low internal tickets but growing Reddit discussion). Base this strictly on your ticket count vs Reddit post volume.\",\n  \"boldr_vs_market\": \"Maximum 25 words. State whether Boldr is ahead, behind, or aligned with market attention on this theme. Cite your internal ticket count and Reddit volume explicitly.\",\n  \"coverage_gap_score\": \"Rate 1–5 (1 = Boldr fully covers market concern, 5 = major gap). Base on KB entry count vs Reddit volume and buyer intent.\",\n  \"recommended_action\": \"Maximum 20 words. Provide one highly specific operational action (e.g., 'Draft a new KB article about strap lengths', 'Add lug-to-lug measurements on product page').\",\n  \"external_source\": \"r/Watchstraps\"\n}\n\nSTART YOUR RESPONSE DIRECTLY WITH {`\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        736
+      ],
+      "id": "89704185-fb2e-4bf7-b5dd-9687b33d1071",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer sk-8365f48a47b84500b6956838bc18b3f7"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen-plus\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": {{JSON.stringify($json.system_prompt)}}\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{JSON.stringify($json.user_prompt)}}\n    }\n  ],\n  \"temperature\": 0.2,\n  \"response_format\": {\n    \"type\": \"json_object\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1536,
+        784
+      ],
+      "id": "bdd7a254-8efa-4ba5-8304-4b6f8de288e2",
+      "name": "calling of ai to direct using qwen4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  const raw = item.json.choices[0].message.content;\n\n  try {\n    const cleaned = raw.replace(/```json/g, '').replace(/```/g, '').trim();\n    const parsed  = JSON.parse(cleaned);\n\n    results.push({\n      json: {\n        post_id:               item.json.post_id,\n        theme:                 parsed.theme,\n        persona:               parsed.persona,\n        sentiment:             parsed.sentiment,\n        internal_ticket_count: parsed.internal_ticket_count ?? 0,\n        key_gap:               parsed.key_gap,\n        key_insight:           parsed.key_insight,\n        marketing_signal:      parsed.marketing_signal,\n        verdict:               parsed.verdict,\n        boldr_vs_market:       parsed.boldr_vs_market,\n        coverage_gap_score:    parsed.coverage_gap_score,\n        recommended_action:    parsed.recommended_action,\n        external_source:       parsed.external_source,\n        tokens_used:           item.json.usage?.total_tokens,\n      }\n    });\n  } catch (e) {\n    results.push({\n      json: {\n        post_id: item.json.post_id,\n        error:   'Failed to parse',\n        raw:     raw\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1712,
+        816
+      ],
+      "id": "777254ca-7281-46b1-b9f3-1220d78d9fad",
+      "name": "Code in JavaScript15"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "={{ $json.telegram_message }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2640,
+        272
+      ],
+      "id": "ae729665-4578-4bc9-b062-7fa912566c00",
+      "name": "Send a text message1",
+      "webhookId": "bfac719e-37c9-4ec7-8205-13202af2b4aa",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Get the JSON output from the previous AI node\nconst data = $input.all()[0].json;\n\n// 2. Helper function to make text look nicer (e.g., \"sustainability_advocate\" -> \"Sustainability Advocate\")\nconst formatText = (str) => {\n  if (!str) return \"\";\n  return str.split('_')\n    .map(word => word.charAt(0).toUpperCase() + word.slice(1))\n    .join(' ');\n};\n\n// 3. Build the Telegram message using template literals\nconst telegramMessage = `\n📊 *CX Gap Analysis: ${formatText(data.theme)}*\n\n👤 *Target Persona:* ${formatText(data.persona)}\n🌡️ *Sentiment:* ${formatText(data.sentiment)}\n🎫 *Internal Tickets Counted:* ${data.internal_ticket_count}\n🌐 *External Source:* ${data.external_source}\n📌 *Verdict:* ${formatText(data.verdict)}\n🔢 *Coverage Gap Score:* ${data.coverage_gap_score} / 5\n\n⚠️ *The Gap:*\n${data.key_gap}\n\n💡 *Key Insight:*\n${data.key_insight}\n\n📈 *Marketing Signal:*\n${data.marketing_signal}\n\n🎯 *Recommended Action (30 Days):*\n${data.recommended_action}\n\n⚖️ *Internal vs Market Demand:*\n${data.boldr_vs_market}\n`;\n\n// 4. Output the formatted message along with the original data\nreturn [{\n  json: {\n    telegram_message: telegramMessage,\n    ...data\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        816
+      ],
+      "id": "86944208-197f-4b4a-a07b-5ae443aca5b3",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "={{ $json.telegram_message }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2224,
+        816
+      ],
+      "id": "2ae6fb2d-8ae7-4388-905a-46f3096aa666",
+      "name": "Send a text message2",
+      "webhookId": "bfac719e-37c9-4ec7-8205-13202af2b4aa",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Get the JSON output from the previous AI node\nconst data = $input.all()[0].json;\n\n// 2. Helper function to make text look nicer (e.g., \"sustainability_advocate\" -> \"Sustainability Advocate\")\nconst formatText = (str) => {\n  if (!str) return \"\";\n  return str.split('_')\n    .map(word => word.charAt(0).toUpperCase() + word.slice(1))\n    .join(' ');\n};\n\n// 3. Build the Telegram message using template literals\nconst telegramMessage = `\n📊 *CX Gap Analysis: ${formatText(data.theme)}*\n\n👤 *Target Persona:* ${formatText(data.persona)}\n🌡️ *Sentiment:* ${formatText(data.sentiment)}\n🎫 *Internal Tickets Counted:* ${data.internal_ticket_count}\n🌐 *External Source:* ${data.external_source}\n📌 *Verdict:* ${formatText(data.verdict)}\n🔢 *Coverage Gap Score:* ${data.coverage_gap_score} / 5\n\n⚠️ *The Gap:*\n${data.key_gap}\n\n💡 *Key Insight:*\n${data.key_insight}\n\n📈 *Marketing Signal:*\n${data.marketing_signal}\n\n🎯 *Recommended Action (30 Days):*\n${data.recommended_action}\n\n⚖️ *Internal vs Market Demand:*\n${data.boldr_vs_market}\n`;\n\n// 4. Output the formatted message along with the original data\nreturn [{\n  json: {\n    telegram_message: telegramMessage,\n    ...data\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        224
+      ],
+      "id": "052b1adf-ab8a-4db1-968e-bfff4b75acf1",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Get the JSON output from the previous AI node\nconst data = $input.all()[0].json;\n\n// 2. Helper function to make text look nicer (e.g., \"sustainability_advocate\" -> \"Sustainability Advocate\")\nconst formatText = (str) => {\n  if (!str) return \"\";\n  return str.split('_')\n    .map(word => word.charAt(0).toUpperCase() + word.slice(1))\n    .join(' ');\n};\n\n// 3. Build the Telegram message using template literals\nconst telegramMessage = `\n📊 *CX Gap Analysis: ${formatText(data.theme)}*\n\n👤 *Target Persona:* ${formatText(data.persona)}\n🌡️ *Sentiment:* ${formatText(data.sentiment)}\n🎫 *Internal Tickets Counted:* ${data.internal_ticket_count}\n🌐 *External Source:* ${data.external_source}\n📌 *Verdict:* ${formatText(data.verdict)}\n🔢 *Coverage Gap Score:* ${data.coverage_gap_score} / 5\n\n⚠️ *The Gap:*\n${data.key_gap}\n\n💡 *Key Insight:*\n${data.key_insight}\n\n📈 *Marketing Signal:*\n${data.marketing_signal}\n\n🎯 *Recommended Action (30 Days):*\n${data.recommended_action}\n\n⚖️ *Internal vs Market Demand:*\n${data.boldr_vs_market}\n`;\n\n// 4. Output the formatted message along with the original data\nreturn [{\n  json: {\n    telegram_message: telegramMessage,\n    ...data\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        -352
+      ],
+      "id": "6ef878d5-ac30-4913-b42d-36888f946a52",
+      "name": "Code in JavaScript16"
+    },
+    {
+      "parameters": {
+        "chatId": "7141444882",
+        "text": "={{ $json.telegram_message }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2416,
+        -336
+      ],
+      "id": "e5bd3ecc-d0fd-497f-91fd-e84890b16cc3",
+      "name": "Send a text message3",
+      "webhookId": "bfac719e-37c9-4ec7-8205-13202af2b4aa",
+      "credentials": {
+        "telegramApi": {
+          "id": "C5hvNhUJun4mxZWA",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GET: Knowledge base inside supabase1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: tickets persona inside supabase1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Knowledge base inside supabase1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: tickets persona inside supabase1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: Knowledge base inside supabase2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: tickets persona inside supabase3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript9": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript8": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript10": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript11",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: Knowledge base inside supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: tickets persona inside supabase2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript11": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Knowledge base inside supabase": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript12": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Knowledge base inside supabase2": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript14",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: Knowledge base inside supabase3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET: tickets persona inside supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript14": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET: Knowledge base inside supabase3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "GET: tickets persona inside supabase": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "GET: tickets persona inside supabase2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "GET: tickets persona inside supabase3": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "calling of ai to direct using qwen4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calling of ai to direct using qwen4": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript15": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript13": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript16": {
+      "main": [
+        [
+          {
+            "node": "Send a text message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "422951b5-3f6b-4840-93c7-d1f353a0a202",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e15a76d984d1d533ae2eea02153c3167b29a7fcb76903065faed6e65c50e681"
+  },
+  "id": "sEwPszlhy1JQGqi2",
+  "tags": []
+}
